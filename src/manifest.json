@@ -1,0 +1,17 @@
+{
+  "name": "Manga update checker",
+  "version": "1.0.0",
+  "description": "Проверка обновлений манги",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Manga update checker - проверка обновлений манги"
+  },
+  "permissions": [
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ]
+}

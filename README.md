@@ -1,1 +1,1 @@
-# readmanga
+# Manga update checker
