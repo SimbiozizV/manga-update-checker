@@ -8,6 +8,9 @@ import getChromeStorage from '../../helpers/getChromeStorage';
 import removeMangaFromChromeStorage from '../../helpers/removeMangaFromChromeStorage';
 import getDataByUrl from '../../api/getDataByUrl';
 import replaceChromeStorageManga from '../../helpers/replaceChromeStorageManga';
+import determinateSourceType from '../../helpers/determinateSourceType';
+import getParserBySourceType from '../../helpers/getParserBySourceType';
+import prepareMangaUrl from '../../helpers/prepareMangaUrl';
 
 const initialState: Store = {
     manga: [],
@@ -75,32 +78,40 @@ export const addManga =
     (url: string): ThunkAction<void, Store, undefined, Action> =>
     (dispatch, getState) => {
         const { manga } = getState();
-        const index = manga.findIndex(i => i.url === url);
+        const fixedUrl = prepareMangaUrl(url);
+        const source = determinateSourceType(fixedUrl);
 
-        if (index > -1) {
-            message.warning('манга уже есть в списке');
-        } else {
-            dispatch(setAddingAction(true));
-            getDataByUrl(url, readMangaParser)
-                .then(data => {
-                    if (data) {
-                        const maga = {
-                            url,
-                            title: data.title,
-                            prevChapter: data.lastChapter,
-                            lastChapter: data.lastChapter,
-                        };
-                        dispatch(addMangaAction(maga));
-                        addMangaToChromeStorage(maga);
-                        message.success('манга успешно добавлена');
-                    } else {
-                        message.error('ошибка получения данных');
-                    }
-                })
-                .finally(() => {
-                    dispatch(setAddingAction(false));
-                });
+        if (!source) {
+            message.warning('источник манги не поддерживается');
+            return;
         }
+
+        if (manga.findIndex(i => i.url === fixedUrl) > -1) {
+            message.warning('манга уже есть в списке');
+            return;
+        }
+
+        dispatch(setAddingAction(true));
+        getDataByUrl(fixedUrl, getParserBySourceType(source))
+            .then(data => {
+                if (data) {
+                    const maga: Manga = {
+                        url: fixedUrl,
+                        title: data.title,
+                        prevChapter: data.lastChapter,
+                        lastChapter: data.lastChapter,
+                        source,
+                    };
+                    dispatch(addMangaAction(maga));
+                    addMangaToChromeStorage(maga);
+                    message.success('манга успешно добавлена');
+                } else {
+                    message.error('ошибка получения данных');
+                }
+            })
+            .finally(() => {
+                dispatch(setAddingAction(false));
+            });
     };
 
 export const removeManga =

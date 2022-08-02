@@ -1,6 +1,6 @@
-import { Manga } from '../types/Manga';
+import { ParsedData } from '../types/ParsedData';
 
-export default (html: string): Pick<Manga, 'title' | 'lastChapter'> | null => {
+export default (html: string): ParsedData | null => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
     const table = doc.getElementById('chapters-list');

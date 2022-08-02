@@ -1,10 +1,10 @@
 import React, { FC, useCallback } from 'react';
-import { Store } from '../types/Store';
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { Store } from '../../types/Store';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import MangaListItem from './MangaListItem';
 import styled from '@emotion/styled';
 import { Button } from 'antd';
-import { checkMangaUpdate } from '../state/slices';
+import { checkMangaUpdate } from '../../state/slices';
 
 const Wrap = styled.div`
     display: flex;

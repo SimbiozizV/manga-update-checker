@@ -1,12 +1,12 @@
 import React, { FC, MouseEvent } from 'react';
-import { Manga } from '../types/Manga';
+import { Manga } from '../../types/Manga';
 import { Tag, Typography } from 'antd';
-import readMangaIcon from '../images/readmanga.png';
 import styled from '@emotion/styled';
-import { useAppDispatch } from '../hooks';
-import { removeManga } from '../state/slices';
-import MangaRemoveButton from './MangaRemoveButton';
-import markReadMangaInStore from '../helpers/markReadMangaInStore';
+import { useAppDispatch } from '../../hooks';
+import { removeManga } from '../../state/slices';
+import MangaRemoveButton from '../MangaRemoveButton';
+import markReadMangaInStore from '../../helpers/markReadMangaInStore';
+import getIconBySource from '../../helpers/getIconBySource';
 
 const BlockWrap = styled.div`
     display: flex;
@@ -22,7 +22,7 @@ const InfoWrap = styled.div`
     align-items: center;
 `;
 
-const MangaListItem: FC<Manga> = ({ title, url, lastChapter, prevChapter }) => {
+const MangaListItem: FC<Manga> = ({ title, url, source, lastChapter, prevChapter }) => {
     const dispatch = useAppDispatch();
     const hasNewChapter = lastChapter !== prevChapter;
 
@@ -40,7 +40,7 @@ const MangaListItem: FC<Manga> = ({ title, url, lastChapter, prevChapter }) => {
     return (
         <BlockWrap>
             <InfoWrap>
-                <img src={readMangaIcon} alt="icon" />
+                <img src={getIconBySource(source)} alt="icon" />
                 <Typography.Link href={url} target="_blank" onClick={onLinkClick}>
                     {title}
                 </Typography.Link>{' '}

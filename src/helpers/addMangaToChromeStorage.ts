@@ -1,8 +1,8 @@
 import { STORAGE_KEY } from '../constants';
 import getChromeStorage from './getChromeStorage';
-import { ChromeStorageManga } from '../types/ChromeStorageManga';
+import { Manga } from '../types/Manga';
 
-export default async (manga: ChromeStorageManga) => {
+export default async (manga: Manga) => {
     const storageData = await getChromeStorage();
     const index = storageData.manga.findIndex(item => item.url === manga.url);
 

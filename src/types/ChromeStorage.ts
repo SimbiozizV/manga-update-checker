@@ -1,5 +1,5 @@
-import { ChromeStorageManga } from './ChromeStorageManga';
+import { Manga } from './Manga';
 
 export type ChromeStorage = {
-    manga: ChromeStorageManga[];
+    manga: Manga[];
 };
