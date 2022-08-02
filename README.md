@@ -6,6 +6,7 @@
 * https://readmanga.live/
 * https://mintmanga.live/
 * https://selfmanga.live/
+* https://mangalib.me/
 
 ## Установка
 
