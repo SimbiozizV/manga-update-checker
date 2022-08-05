@@ -126,7 +126,9 @@ export const onRedirectByLink =
 
         const index = manga.findIndex(i => i.url === url);
         if (index > -1) {
-            const newList = [...manga];
+            const newList = manga.map((mangaItem, key) =>
+                key === index ? { ...mangaItem, prevChapter: mangaItem.lastChapter } : mangaItem
+            );
             newList[index].prevChapter = newList[index].lastChapter;
             dispatch(setMangaArrayAction(newList));
             mangaStorage.saveStorage({ manga: newList }).then(() => {
