@@ -2,10 +2,7 @@ import React, { FC, MouseEvent } from 'react';
 import { Manga } from '../../types/Manga';
 import { Tag, Typography } from 'antd';
 import styled from '@emotion/styled';
-import { useAppDispatch } from '../../hooks';
-import { removeManga } from '../../state/slices';
 import MangaRemoveButton from '../MangaRemoveButton';
-import markReadMangaInStore from '../../helpers/markReadMangaInStore';
 import getIconBySource from '../../helpers/getIconBySource';
 
 const BlockWrap = styled.div`
@@ -22,19 +19,26 @@ const InfoWrap = styled.div`
     align-items: center;
 `;
 
-const MangaListItem: FC<Manga> = ({ title, url, source, lastChapter, prevChapter }) => {
-    const dispatch = useAppDispatch();
+type Props = {
+    manga: Manga;
+    onRemove: (url: string) => void;
+    onRedirect: (url: string) => void;
+};
+
+const MangaListItem: FC<Props> = ({
+    manga: { title, url, source, lastChapter, prevChapter },
+    onRemove,
+    onRedirect,
+}) => {
     const hasNewChapter = lastChapter !== prevChapter;
 
     const onLinkClick = (e: MouseEvent) => {
         e.preventDefault();
-        markReadMangaInStore(url).then(() => {
-            chrome.tabs.create({ url, active: true });
-        });
+        onRedirect(url);
     };
 
-    const onRemove = () => {
-        dispatch(removeManga(url));
+    const onRemoveClick = () => {
+        onRemove(url);
     };
 
     return (
@@ -53,7 +57,7 @@ const MangaListItem: FC<Manga> = ({ title, url, source, lastChapter, prevChapter
                     `(${lastChapter})`
                 )}
             </InfoWrap>
-            <MangaRemoveButton onRemove={onRemove} />
+            <MangaRemoveButton onRemove={onRemoveClick} />
         </BlockWrap>
     );
 };

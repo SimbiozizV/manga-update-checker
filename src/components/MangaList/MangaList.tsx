@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import MangaListItem from './MangaListItem';
 import styled from '@emotion/styled';
 import { Button } from 'antd';
-import { checkMangaUpdate } from '../../state/slices';
+import { checkMangaUpdate, onRedirectByLink, removeManga } from '../../state/slices';
 
 const Wrap = styled.div`
     display: flex;
@@ -27,6 +27,14 @@ const MangaList: FC = () => {
         dispatch(checkMangaUpdate());
     }, [dispatch]);
 
+    const onRemove = (url: string) => {
+        dispatch(removeManga(url));
+    };
+
+    const onRedirect = (url: string) => {
+        dispatch(onRedirectByLink(url));
+    };
+
     return (
         <Wrap>
             <Button type="primary" onClick={onUpdate} loading={isUpdating}>
@@ -34,8 +42,8 @@ const MangaList: FC = () => {
             </Button>
 
             <Wrap>
-                {manga.map(item => (
-                    <MangaListItem key={item.url} {...item} />
+                {manga.map(mangaItem => (
+                    <MangaListItem key={mangaItem.url} manga={mangaItem} onRemove={onRemove} onRedirect={onRedirect} />
                 ))}
             </Wrap>
         </Wrap>

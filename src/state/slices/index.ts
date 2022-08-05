@@ -3,14 +3,14 @@ import { Action, createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolki
 import readMangaParser from '../../parsers/readMangaParser';
 import { Manga } from '../../types/Manga';
 import { message } from 'antd';
-import addMangaToChromeStorage from '../../helpers/addMangaToChromeStorage';
-import getChromeStorage from '../../helpers/getChromeStorage';
-import removeMangaFromChromeStorage from '../../helpers/removeMangaFromChromeStorage';
 import getDataByUrl from '../../api/getDataByUrl';
-import replaceChromeStorageManga from '../../helpers/replaceChromeStorageManga';
 import determinateSourceType from '../../helpers/determinateSourceType';
 import getParserBySourceType from '../../helpers/getParserBySourceType';
 import prepareMangaUrl from '../../helpers/prepareMangaUrl';
+import MangaStorage from '../../class/MangaStorage';
+import { STORAGE_KEY } from '../../constants';
+
+const mangaStorage = new MangaStorage(STORAGE_KEY);
 
 const initialState: Store = {
     manga: [],
@@ -28,24 +28,13 @@ const slice = createSlice({
         setAddingAction(store, { payload }: PayloadAction<boolean>) {
             store.isAdding = payload;
         },
-        addMangaAction(store, { payload }: PayloadAction<Manga>) {
-            store.manga.push(payload);
-        },
-        removeMangaAction(store, { payload }: PayloadAction<string>) {
-            debugger;
-            const index = store.manga.findIndex(manga => manga.url === payload);
-            if (index > -1) {
-                store.manga.splice(index, 1);
-            }
-        },
         setMangaArrayAction(store, { payload }: PayloadAction<Manga[]>) {
             store.manga = payload;
         },
     },
 });
 
-export const { setUpdatingAction, setAddingAction, addMangaAction, setMangaArrayAction, removeMangaAction } =
-    slice.actions;
+export const { setUpdatingAction, setAddingAction, setMangaArrayAction } = slice.actions;
 
 const updateManga = (manga: Manga): Promise<Manga> => {
     return getDataByUrl(manga.url, readMangaParser).then(data => {
@@ -60,7 +49,7 @@ export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> 
     Promise.all(manga.map(updateManga))
         .then(updatedManga => {
             dispatch(setMangaArrayAction(updatedManga));
-            replaceChromeStorageManga(updatedManga);
+            mangaStorage.setMangaList(updatedManga);
             message.success('манга обновлена');
         })
         .finally(() => {
@@ -69,8 +58,8 @@ export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> 
 };
 
 export const loadMangaFromChromeStore = (): ThunkAction<void, Store, undefined, Action> => dispatch => {
-    getChromeStorage().then(data => {
-        dispatch(setMangaArrayAction(data.manga));
+    mangaStorage.getStorage().then(({ manga }) => {
+        dispatch(setMangaArrayAction(manga));
     });
 };
 
@@ -95,15 +84,17 @@ export const addManga =
         getDataByUrl(fixedUrl, getParserBySourceType(source))
             .then(data => {
                 if (data) {
-                    const maga: Manga = {
+                    const newList = [...manga];
+                    newList.push({
                         url: fixedUrl,
                         title: data.title,
                         prevChapter: data.lastChapter,
                         lastChapter: data.lastChapter,
                         source,
-                    };
-                    dispatch(addMangaAction(maga));
-                    addMangaToChromeStorage(maga);
+                    });
+
+                    dispatch(setMangaArrayAction(newList));
+                    mangaStorage.saveStorage({ manga: newList });
                     message.success('манга успешно добавлена');
                 } else {
                     message.error('ошибка получения данных');
@@ -116,9 +107,32 @@ export const addManga =
 
 export const removeManga =
     (url: string): ThunkAction<void, Store, undefined, Action> =>
-    dispatch => {
-        dispatch(removeMangaAction(url));
-        removeMangaFromChromeStorage(url);
+    (dispatch, getState) => {
+        const { manga } = getState();
+
+        const index = manga.findIndex(i => i.url === url);
+        if (index > -1) {
+            const newList = [...manga];
+            newList.splice(index, 1);
+            dispatch(setMangaArrayAction(newList));
+            mangaStorage.saveStorage({ manga: newList });
+        }
+    };
+
+export const onRedirectByLink =
+    (url: string): ThunkAction<void, Store, undefined, Action> =>
+    (dispatch, getState) => {
+        const { manga } = getState();
+
+        const index = manga.findIndex(i => i.url === url);
+        if (index > -1) {
+            const newList = [...manga];
+            newList[index].prevChapter = newList[index].lastChapter;
+            dispatch(setMangaArrayAction(newList));
+            mangaStorage.saveStorage({ manga: newList }).then(() => {
+                chrome.tabs.create({ url, active: true });
+            });
+        }
     };
 
 export default slice.reducer;
