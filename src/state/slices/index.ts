@@ -9,6 +9,7 @@ import getParserBySourceType from '../../helpers/getParserBySourceType';
 import prepareMangaUrl from '../../helpers/prepareMangaUrl';
 import MangaStorage from '../../class/MangaStorage';
 import { STORAGE_KEY } from '../../constants';
+import isEqual from '../../helpers/isEqual';
 
 const mangaStorage = new MangaStorage(STORAGE_KEY);
 
@@ -48,8 +49,10 @@ export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> 
     dispatch(setUpdatingAction(true));
     Promise.all(manga.map(updateManga))
         .then(updatedManga => {
-            dispatch(setMangaArrayAction(updatedManga));
-            mangaStorage.setMangaList(updatedManga);
+            if (!isEqual(manga, updatedManga)) {
+                dispatch(setMangaArrayAction(updatedManga));
+                mangaStorage.setMangaList(updatedManga);
+            }
             message.success('манга обновлена');
         })
         .finally(() => {

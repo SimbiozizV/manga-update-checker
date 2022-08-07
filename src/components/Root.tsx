@@ -5,6 +5,7 @@ import AddForm from './AddForm';
 import MangaList from './MangaList';
 import { useAppDispatch } from '../hooks';
 import { loadMangaFromChromeStore } from '../state/slices';
+import Controls from './Controls';
 
 const Root: FC = () => {
     const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ const Root: FC = () => {
         <Container>
             <Typography.Title level={3}>Manga update checker</Typography.Title>
             <AddForm />
+            <Controls />
             <MangaList />
         </Container>
     );

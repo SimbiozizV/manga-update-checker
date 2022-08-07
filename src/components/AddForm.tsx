@@ -10,6 +10,10 @@ const StyledForm = styled(Form)`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr min-content;
+
+    .ant-form-item {
+        margin-bottom: 0;
+    }
 `;
 
 const selector = (state: Store) => state.isAdding;
@@ -19,9 +23,10 @@ const AddForm: FC = () => {
     const dispatch = useAppDispatch();
     const [form] = Form.useForm();
 
-    const onFinish = async (data: { url: string }) => {
-        form.resetFields();
+    const onFinish = () => {
+        const data: { url: string } = form.getFieldsValue();
         dispatch(addManga(data.url));
+        form.resetFields();
     };
 
     return (
