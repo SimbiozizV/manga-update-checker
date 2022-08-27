@@ -9,7 +9,7 @@ import getParserBySourceType from '../../helpers/getParserBySourceType';
 import prepareMangaUrl from '../../helpers/prepareMangaUrl';
 import MangaStorage from '../../class/MangaStorage';
 import { STORAGE_KEY } from '../../constants';
-import isEqual from '../../helpers/isEqual';
+import { MangaStatus } from '../../enum';
 
 const mangaStorage = new MangaStorage(STORAGE_KEY);
 
@@ -47,13 +47,30 @@ export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> 
     const { manga } = getState();
 
     dispatch(setUpdatingAction(true));
-    Promise.all(manga.map(updateManga))
+    Promise.allSettled(manga.map(updateManga))
         .then(updatedManga => {
-            if (!isEqual(manga, updatedManga)) {
-                dispatch(setMangaArrayAction(updatedManga));
-                mangaStorage.setMangaList(updatedManga);
+            let hasProplem = false;
+            let newChapterCount = 0;
+
+            const result = updatedManga.reduce<Manga[]>((acc, mangaItem, key) => {
+                if (mangaItem.status === 'fulfilled') {
+                    if (manga[key].lastChapter !== mangaItem.value.lastChapter) newChapterCount++;
+                    acc.push({ ...manga[key], lastChapter: mangaItem.value.lastChapter, status: MangaStatus.Success });
+                } else {
+                    hasProplem = true;
+                    acc.push({ ...manga[key], status: MangaStatus.Error });
+                }
+                return acc;
+            }, []);
+
+            dispatch(setMangaArrayAction(result));
+            mangaStorage.setMangaList(result);
+
+            if (hasProplem) {
+                message.warning('при обновлении возникли проблемы');
+            } else {
+                message.success(`манга обновлена${newChapterCount > 0 ? `. ${newChapterCount} новинок` : ''}`);
             }
-            message.success('манга обновлена');
         })
         .finally(() => {
             dispatch(setUpdatingAction(false));
@@ -93,6 +110,7 @@ export const addManga =
                         title: data.title,
                         prevChapter: data.lastChapter,
                         lastChapter: data.lastChapter,
+                        status: MangaStatus.Success,
                         source,
                     });
 
@@ -113,13 +131,9 @@ export const removeManga =
     (dispatch, getState) => {
         const { manga } = getState();
 
-        const index = manga.findIndex(i => i.url === url);
-        if (index > -1) {
-            const newList = [...manga];
-            newList.splice(index, 1);
-            dispatch(setMangaArrayAction(newList));
-            mangaStorage.saveStorage({ manga: newList });
-        }
+        const newList = manga.filter(item => item.url !== url);
+        dispatch(setMangaArrayAction(newList));
+        mangaStorage.saveStorage({ manga: newList });
     };
 
 export const onRedirectByLink =

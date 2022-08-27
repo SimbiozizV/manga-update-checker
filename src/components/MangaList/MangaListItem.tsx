@@ -1,9 +1,15 @@
 import React, { FC, MouseEvent } from 'react';
+import { WarningOutlined } from '@ant-design/icons';
 import { Manga } from '../../types/Manga';
 import { Tag, Typography } from 'antd';
 import styled from '@emotion/styled';
 import MangaRemoveButton from '../MangaRemoveButton';
 import getIconBySource from '../../helpers/getIconBySource';
+import { MangaStatus } from '../../enum';
+
+const WarningIcon = styled(WarningOutlined)`
+    color: #ff4d4f;
+`;
 
 const BlockWrap = styled.div`
     display: flex;
@@ -26,7 +32,7 @@ type Props = {
 };
 
 const MangaListItem: FC<Props> = ({
-    manga: { title, url, source, lastChapter, prevChapter },
+    manga: { title, url, source, status, lastChapter, prevChapter },
     onRemove,
     onRedirect,
 }) => {
@@ -49,6 +55,7 @@ const MangaListItem: FC<Props> = ({
                 <Typography.Link href={url} target="_blank" onClick={onLinkClick}>
                     {title}
                 </Typography.Link>{' '}
+                {status === MangaStatus.Error && <WarningIcon />}
                 {hasNewChapter ? (
                     <>
                         <span>{`(${prevChapter} > ${lastChapter})`}</span>
