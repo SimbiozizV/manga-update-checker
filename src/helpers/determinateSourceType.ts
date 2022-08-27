@@ -6,6 +6,8 @@ export default (url: string): SourceType | null => {
     switch (host) {
         case 'mangalib.me':
             return SourceType.MangaLib;
+        case 'acomics.ru':
+            return SourceType.AK;
         case 'readmanga.live':
         case 'mintmanga.live':
         case 'selfmanga.live':

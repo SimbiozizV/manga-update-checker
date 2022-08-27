@@ -7,6 +7,7 @@
 * https://mintmanga.live/
 * https://selfmanga.live/
 * https://mangalib.me/
+* https://acomics.ru/
 
 ## Установка
 
