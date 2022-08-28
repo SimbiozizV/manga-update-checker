@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import { DEFAULT_ERROR } from '../constants/text';
 
 type MakeRequest = (
     url: RequestInfo,
@@ -6,7 +7,7 @@ type MakeRequest = (
 ) => Promise<string>;
 
 const makeRequest: MakeRequest = async (url, options) => {
-    let errorMessage = options?.errorMessage || 'Что-то пошло не так';
+    let errorMessage = options?.errorMessage || DEFAULT_ERROR;
     try {
         const response = await fetch(url, options);
 

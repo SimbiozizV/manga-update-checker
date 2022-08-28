@@ -4,11 +4,10 @@ import readMangaParser from '../../parsers/readMangaParser';
 import { Manga } from '../../types/Manga';
 import { message } from 'antd';
 import getDataByUrl from '../../api/getDataByUrl';
-import determinateSourceType from '../../helpers/determinateSourceType';
-import getParserBySourceType from '../../helpers/getParserBySourceType';
-import prepareMangaUrl from '../../helpers/prepareMangaUrl';
+import { determinateSourceType, getParserBySourceType, prepareMangaUrl } from '../../helpers';
 import MangaStorage from '../../class/MangaStorage';
 import { STORAGE_KEY } from '../../constants';
+import { ADD_MANGA_TEXT, UPDATE_MANGA_TEXT } from '../../constants/text';
 import { MangaStatus } from '../../enum';
 
 const mangaStorage = new MangaStorage(STORAGE_KEY);
@@ -67,9 +66,9 @@ export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> 
             mangaStorage.setMangaList(result);
 
             if (hasProplem) {
-                message.warning('при обновлении возникли проблемы');
+                message.warning(UPDATE_MANGA_TEXT.error);
             } else {
-                message.success(`манга обновлена${newChapterCount > 0 ? `. ${newChapterCount} новинок` : ''}`);
+                message.success(UPDATE_MANGA_TEXT.success(newChapterCount));
             }
         })
         .finally(() => {
@@ -91,12 +90,12 @@ export const addManga =
         const source = determinateSourceType(fixedUrl);
 
         if (!source) {
-            message.warning('источник манги не поддерживается');
+            message.warning(ADD_MANGA_TEXT.notSupported);
             return;
         }
 
         if (manga.findIndex(i => i.url === fixedUrl) > -1) {
-            message.warning('манга уже есть в списке');
+            message.warning(ADD_MANGA_TEXT.alreadyExist);
             return;
         }
 
@@ -116,9 +115,9 @@ export const addManga =
 
                     dispatch(setMangaArrayAction(newList));
                     mangaStorage.saveStorage({ manga: newList });
-                    message.success('манга успешно добавлена');
+                    message.success(ADD_MANGA_TEXT.success);
                 } else {
-                    message.error('ошибка получения данных');
+                    message.error(ADD_MANGA_TEXT.error);
                 }
             })
             .finally(() => {

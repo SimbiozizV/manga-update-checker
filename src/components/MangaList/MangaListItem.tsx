@@ -36,7 +36,6 @@ const MangaListItem: FC<Props> = ({
     onRemove,
     onRedirect,
 }) => {
-    console.count('elemenet');
     const hasNewChapter = lastChapter !== prevChapter;
 
     const onLinkClick = (e: MouseEvent) => {
