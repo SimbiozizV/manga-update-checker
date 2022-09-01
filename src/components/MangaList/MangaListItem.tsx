@@ -3,7 +3,7 @@ import { WarningOutlined } from '@ant-design/icons';
 import { Manga } from '../../types/Manga';
 import { Tag, Typography } from 'antd';
 import styled from '@emotion/styled';
-import MangaRemoveButton from '../MangaRemoveButton';
+import MangaRemoveButton from './MangaRemoveButton';
 import getIconBySource from '../../helpers/getIconBySource';
 import { MangaStatus } from '../../enum';
 

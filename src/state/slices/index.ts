@@ -1,6 +1,5 @@
 import { Store } from '../../types/Store';
 import { Action, createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import readMangaParser from '../../parsers/readMangaParser';
 import { Manga } from '../../types/Manga';
 import { message } from 'antd';
 import getDataByUrl from '../../api/getDataByUrl';
@@ -37,7 +36,7 @@ const slice = createSlice({
 export const { setUpdatingAction, setAddingAction, setMangaArrayAction } = slice.actions;
 
 const updateManga = (manga: Manga): Promise<Manga> => {
-    return getDataByUrl(manga.url, readMangaParser).then(data => {
+    return getDataByUrl(manga.url, getParserBySourceType(manga.source)).then(data => {
         return data ? { ...manga, prevChapter: manga.lastChapter, lastChapter: data.lastChapter } : manga;
     });
 };

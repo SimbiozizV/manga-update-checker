@@ -12,7 +12,7 @@ const StyledForm = styled(Form)`
     grid-template-columns: 1fr min-content;
 
     .ant-form-item {
-        margin-bottom: 0;
+        margin-bottom: 15px;
     }
 `;
 

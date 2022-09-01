@@ -1,23 +1,16 @@
 import React, { FC } from 'react';
-import { Store } from '../../types/Store';
-import { useAppDispatch, useAppSelector } from '../../hooks';
 import MangaListItem from './MangaListItem';
-import styled from '@emotion/styled';
+import { useAppDispatch } from '../../hooks';
 import { onRedirectByLink, removeManga } from '../../state/slices';
+import { Manga } from '../../types/Manga';
+import { List } from 'antd';
 
-const Wrap = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px 0;
-    width: 100%;
-`;
+type Props = {
+    mangaList: Manga[];
+};
 
-const selector = (state: Store) => state.manga;
-
-const MangaList: FC = () => {
+const MangaList: FC<Props> = ({ mangaList }) => {
     const dispatch = useAppDispatch();
-    const manga = useAppSelector(selector);
 
     const onRemove = (url: string) => {
         dispatch(removeManga(url));
@@ -28,11 +21,15 @@ const MangaList: FC = () => {
     };
 
     return (
-        <Wrap>
-            {manga.map(mangaItem => (
-                <MangaListItem key={mangaItem.url} manga={mangaItem} onRemove={onRemove} onRedirect={onRedirect} />
-            ))}
-        </Wrap>
+        <List
+            size="small"
+            dataSource={mangaList}
+            renderItem={item => (
+                <List.Item>
+                    <MangaListItem key={item.url} manga={item} onRemove={onRemove} onRedirect={onRedirect} />
+                </List.Item>
+            )}
+        />
     );
 };
 

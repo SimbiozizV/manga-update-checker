@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Button, Popconfirm } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
-import { CONFIRM_DELETE_TEXT } from '../constants/text';
+import { CONFIRM_DELETE_TEXT } from '../../constants/text';
 
 type Props = { onRemove: () => void };
 
