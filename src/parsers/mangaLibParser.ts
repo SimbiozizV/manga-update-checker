@@ -6,7 +6,11 @@ export default (html: string): ParsedData | null => {
 
     try {
         let dataString = doc.querySelector('script')!.innerHTML.split('window')[1];
-        dataString = dataString.replace('.__DATA__ = ', '').replace(';', '');
+        dataString = dataString
+            .replace('.__DATA__ = ', '')
+            .replace(';', '')
+            .replace(/\s{2,}/g, '')
+            .replace(/;$/, '');
         const data = JSON.parse(dataString);
         const chapter = data.chapters.list.shift();
         return {
