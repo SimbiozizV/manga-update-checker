@@ -24,3 +24,10 @@ export const UPDATE_MANGA_TEXT = {
             : 'Нет новых глав';
     },
 };
+
+export const IMPORT_MANGA_TEXT = {
+    success: 'Успешный импорт',
+    error: 'При импорте возникли проблемы',
+    noNew: 'Нет новой манги для импорта',
+    alreadyExist: 'Часть манги уже есть в списке',
+};

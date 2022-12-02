@@ -6,8 +6,9 @@ import getDataByUrl from '../../api/getDataByUrl';
 import { determinateSourceType, getParserBySourceType, prepareMangaUrl } from '../../helpers';
 import MangaStorage from '../../class/MangaStorage';
 import { STORAGE_KEY } from '../../constants';
-import { ADD_MANGA_TEXT, UPDATE_MANGA_TEXT } from '../../constants/text';
+import { ADD_MANGA_TEXT, IMPORT_MANGA_TEXT, UPDATE_MANGA_TEXT } from '../../constants/text';
 import { MangaStatus } from '../../enum';
+import { ExportItem } from '../../types/ExportItem';
 
 const mangaStorage = new MangaStorage(STORAGE_KEY);
 
@@ -15,6 +16,7 @@ const initialState: Store = {
     manga: [],
     isAdding: false,
     isUpdating: false,
+    isImported: false,
 };
 
 const slice = createSlice({
@@ -27,13 +29,63 @@ const slice = createSlice({
         setAddingAction(store, { payload }: PayloadAction<boolean>) {
             store.isAdding = payload;
         },
+        setImportingAction(store, { payload }: PayloadAction<boolean>) {
+            store.isImported = payload;
+        },
         setMangaArrayAction(store, { payload }: PayloadAction<Manga[]>) {
             store.manga = payload;
         },
     },
 });
 
-export const { setUpdatingAction, setAddingAction, setMangaArrayAction } = slice.actions;
+export const { setUpdatingAction, setAddingAction, setMangaArrayAction, setImportingAction } = slice.actions;
+
+export const importFile =
+    (importList: ExportItem[]): ThunkAction<void, Store, undefined, Action> =>
+    (dispatch, getState) => {
+        const { manga } = getState();
+
+        dispatch(setImportingAction(true));
+        const newManga = importList.filter(({ url }) => manga.findIndex(i => i.url === url) === -1);
+
+        if (newManga.length) {
+            if (newManga.length !== importList.length) {
+                message.warning(IMPORT_MANGA_TEXT.alreadyExist);
+            }
+
+            Promise.allSettled(
+                newManga.map(({ url, source }) => getDataByUrl(url, getParserBySourceType(source)))
+            ).then(data => {
+                const result = data.reduce<Manga[]>((acc, mangaItem, index) => {
+                    if (mangaItem.status === 'fulfilled' && mangaItem.value) {
+                        acc.push({
+                            url: newManga[index].url,
+                            title: mangaItem.value.title,
+                            prevChapter: newManga[index].lastChapter,
+                            lastChapter: mangaItem.value.lastChapter,
+                            status: MangaStatus.Success,
+                            source: newManga[index].source,
+                        });
+                    }
+                    return acc;
+                }, []);
+
+                const updatedList = [...manga, ...result];
+                dispatch(setMangaArrayAction(updatedList));
+                mangaStorage.setMangaList(updatedList);
+
+                if (newManga.length !== result.length) {
+                    message.error(IMPORT_MANGA_TEXT.error);
+                } else {
+                    message.success(IMPORT_MANGA_TEXT.success);
+                }
+                dispatch(setImportingAction(false));
+            });
+        } else {
+            dispatch(setImportingAction(false));
+            message.warning(IMPORT_MANGA_TEXT.noNew);
+        }
+    };
 
 const updateManga = (manga: Manga): Promise<Manga> => {
     return getDataByUrl(manga.url, getParserBySourceType(manga.source)).then(data => {
@@ -73,12 +125,6 @@ export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> 
         .finally(() => {
             dispatch(setUpdatingAction(false));
         });
-};
-
-export const loadMangaFromChromeStore = (): ThunkAction<void, Store, undefined, Action> => dispatch => {
-    mangaStorage.getStorage().then(({ manga }) => {
-        dispatch(setMangaArrayAction(manga));
-    });
 };
 
 export const addManga =
