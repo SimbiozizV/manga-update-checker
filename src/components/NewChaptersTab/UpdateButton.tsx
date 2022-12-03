@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { ReloadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { Store } from '../../types/Store';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -15,7 +16,7 @@ const UpdateButton: FC = () => {
     };
 
     return (
-        <Button type="primary" onClick={onUpdate} loading={isUpdating}>
+        <Button type="primary" onClick={onUpdate} loading={isUpdating} icon={<ReloadOutlined />}>
             Проверить обновления
         </Button>
     );

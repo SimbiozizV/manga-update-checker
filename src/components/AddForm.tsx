@@ -10,10 +10,16 @@ const StyledForm = styled(Form)`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr min-content;
-
-    .ant-form-item {
-        margin-bottom: 15px;
-    }
+  
+  .ant-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  .ant-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 `;
 
 const selector = (state: Store) => state.isAdding;
@@ -32,7 +38,7 @@ const AddForm: FC = () => {
     return (
         <StyledForm form={form} onFinish={onFinish}>
             <Form.Item name="url" rules={[{ required: true, message: 'заполните url' }]}>
-                <Input placeholder="https://readmanga.live/XXXX" />
+                <Input placeholder="https://readmanga.live/XXXX"  />
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit" loading={isAdding} icon={<PlusOutlined />}>
