@@ -8,6 +8,7 @@
 * https://selfmanga.live/
 * https://mangalib.me/
 * https://acomics.ru/
+* https://desu.me/
 
 ## Установка
 
