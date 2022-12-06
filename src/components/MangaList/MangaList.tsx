@@ -4,6 +4,16 @@ import { useAppDispatch } from '../../hooks';
 import { onRedirectByLink, removeManga } from '../../state/slices';
 import { Manga } from '../../types/Manga';
 import { List } from 'antd';
+import styled from '@emotion/styled';
+
+const ListItem = styled(List)`
+    margin-top: 10px;
+
+    .ant-list-item {
+        padding-right: 0;
+        padding-left: 0;
+    }
+`;
 
 type Props = {
     mangaList: Manga[];
@@ -25,9 +35,9 @@ const MangaList: FC<Props> = ({ mangaList }) => {
             size="small"
             dataSource={mangaList}
             renderItem={item => (
-                <List.Item>
+                <ListItem>
                     <MangaListItem key={item.url} manga={item} onRemove={onRemove} onRedirect={onRedirect} />
-                </List.Item>
+                </ListItem>
             )}
         />
     );

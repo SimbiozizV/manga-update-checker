@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 const Wrap = styled.div`
     width: 500px;
     max-height: 800px;
-    padding: 20px;
+    padding: 0 20px 20px;
     background: #fff;
     overflow-y: auto;
 `;

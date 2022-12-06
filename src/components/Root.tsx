@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import Container from './Container';
 import { Typography, Tabs } from 'antd';
 import AddForm from './AddForm';
-import NewChaptersTab from './NewChaptersTab';
+import UpdateTab from './UpdateTab';
 import MangaListTab from './MangaListTab';
 import { Store } from '../types/Store';
 import { useAppSelector } from '../hooks';
@@ -21,7 +21,7 @@ const Root: FC = () => {
             {hasManga ? (
                 <Tabs type="card">
                     <Tabs.TabPane tab="Новые главы" key={1}>
-                        <NewChaptersTab />
+                        <UpdateTab />
                     </Tabs.TabPane>
                     <Tabs.TabPane tab="Список манги" key={2}>
                         <MangaListTab />

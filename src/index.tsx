@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { initStore } from './state';
 import MangaStorage from './class/MangaStorage';
 import { STORAGE_KEY } from './constants';
-import 'antd/dist/reset.css';
+import GlobalStyles from './components/GlobalStyles';
 
 (async () => {
     const container = document.getElementById('app');
@@ -18,6 +18,7 @@ import 'antd/dist/reset.css';
 
         root.render(
             <Provider store={store}>
+                <GlobalStyles />
                 <Root />
             </Provider>
         );

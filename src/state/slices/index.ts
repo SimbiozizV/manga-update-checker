@@ -89,7 +89,9 @@ export const importFile =
 
 const updateManga = (manga: Manga): Promise<Manga> => {
     return getDataByUrl(manga.url, getParserBySourceType(manga.source)).then(data => {
-        return data ? { ...manga, prevChapter: manga.lastChapter, lastChapter: data.lastChapter } : manga;
+        return data
+            ? { ...manga, prevChapter: manga.lastChapter, lastChapter: data.lastChapter, status: MangaStatus.Success }
+            : { ...manga, status: MangaStatus.Error };
     });
 };
 
@@ -105,10 +107,14 @@ export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> 
             const result = updatedManga.reduce<Manga[]>((acc, mangaItem, key) => {
                 if (mangaItem.status === 'fulfilled') {
                     if (manga[key].lastChapter !== mangaItem.value.lastChapter) newChapterCount++;
-                    acc.push({ ...manga[key], lastChapter: mangaItem.value.lastChapter, status: MangaStatus.Success });
+                    acc.push({
+                        ...manga[key],
+                        lastChapter: mangaItem.value.lastChapter,
+                        status: mangaItem.value.status,
+                    });
                 } else {
                     hasProplem = true;
-                    acc.push({ ...manga[key], status: MangaStatus.Error });
+                    acc.push(manga[key]);
                 }
                 return acc;
             }, []);

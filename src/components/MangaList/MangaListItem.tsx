@@ -21,7 +21,7 @@ const BlockWrap = styled.div`
 
 const InfoWrap = styled.div`
     display: flex;
-    gap: 0 5px;
+    gap: 0 8px;
     align-items: center;
 `;
 
