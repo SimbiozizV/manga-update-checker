@@ -1,11 +1,11 @@
 {
   "name": "manga-update-checker",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "main": "index.js",
   "repository": "git@github.com:SimbiozizV/manga-update-checker.git",
   "author": "galcevskij <simbioziz@gmail.com>",
   "license": "MIT",
-  "packageManager": "yarn@3.2.4",
+  "packageManager": "yarn@3.3.0",
   "devDependencies": {
     "@babel/core": "^7.20.5",
     "@babel/eslint-parser": "^7.19.1",
