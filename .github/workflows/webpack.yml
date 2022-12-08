@@ -7,7 +7,26 @@ on:
     branches: [ "main" ]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'pull_request' || github.repository_owner != github.event.pull_request.head.repo.owner.login }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'yarn'
+
+      - name: Install project
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn lint:all
+
   build:
+    needs: [lint]
     runs-on: ubuntu-latest
 
     strategy:
@@ -24,5 +43,5 @@ jobs:
 
     - name: Build
       run: |
-        yarn install
+        yarn install --frozen-lockfile
         yarn build
