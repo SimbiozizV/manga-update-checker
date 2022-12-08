@@ -11,6 +11,11 @@ import Empty from './Empty';
 
 const selector = (state: Store) => state.manga.length > 0;
 
+const items = [
+    { label: 'Новые главы', key: 'item-1', children: <UpdateTab /> },
+    { label: 'Список манги', key: 'item-2', children: <MangaListTab /> },
+];
+
 const Root: FC = () => {
     const hasManga = useAppSelector(selector);
 
@@ -19,14 +24,7 @@ const Root: FC = () => {
             <Typography.Title level={3}>Manga update checker</Typography.Title>
             <AddForm />
             {hasManga ? (
-                <Tabs type="card">
-                    <Tabs.TabPane tab="Новые главы" key={1}>
-                        <UpdateTab />
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="Список манги" key={2}>
-                        <MangaListTab />
-                    </Tabs.TabPane>
-                </Tabs>
+                <Tabs type="card" items={items} />
             ) : (
                 <Empty description={EMPTY_TEXT.list} margin="30px 0 0 0" />
             )}

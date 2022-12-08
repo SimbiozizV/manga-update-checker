@@ -1,4 +1,4 @@
-import {SourceType} from '../enum';
+import { SourceType } from '../enum';
 
 export default (url: string): SourceType | null => {
     const { host } = new URL(url);

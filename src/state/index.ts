@@ -9,6 +9,7 @@ export const initStore = (manga: Manga[]) => {
         manga,
         isAdding: false,
         isUpdating: false,
+        isImported: false,
     };
 
     return configureStore({
