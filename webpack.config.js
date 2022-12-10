@@ -30,7 +30,7 @@ module.exports = (_, argv) => {
                         loader: 'babel-loader',
                     },
                 },
-                { test: /\.(jpg|png)$/, use: { loader: 'file-loader' } }
+                { test: /\.(jpg|png)$/, use: { loader: 'file-loader' } },
             ],
         },
         cache: {
@@ -63,6 +63,9 @@ module.exports = (_, argv) => {
             new WebpackExtensionManifestPlugin({
                 config: {
                     base: baseManifest,
+                    extend: {
+                        version: process.env.npm_package_version,
+                    },
                 },
             }),
         ],
