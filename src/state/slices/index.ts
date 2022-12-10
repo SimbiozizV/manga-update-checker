@@ -40,6 +40,8 @@ const slice = createSlice({
 
 export const { setUpdatingAction, setAddingAction, setMangaArrayAction, setImportingAction } = slice.actions;
 
+export const selectManga = (state: Store) => state.manga;
+
 export const importFile =
     (importList: ExportItem[]): ThunkAction<void, Store, undefined, Action> =>
     (dispatch, getState) => {

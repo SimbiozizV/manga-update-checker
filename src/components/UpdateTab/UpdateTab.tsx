@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import UpdateButton from './UpdateButton';
-import { Store } from '../../types/Store';
 import { useAppSelector } from '../../hooks';
 import MangaList from '../MangaList/MangaList';
 import { EMPTY_TEXT, WARNING_TEXT } from '../../constants/text';
@@ -9,6 +8,9 @@ import Empty from '../Empty';
 import { shallowEqual } from 'react-redux';
 import { MangaStatus } from '../../enum';
 import { Alert, Typography } from 'antd';
+import { createSelector } from '@reduxjs/toolkit';
+import { selectManga } from '../../state/slices';
+import { Manga } from '../../types/Manga';
 
 const Wrap = styled.div`
     display: flex;
@@ -16,27 +18,34 @@ const Wrap = styled.div`
     gap: 20px 0;
 `;
 
-const selector = (state: Store) => ({
-    updated: state.manga.filter(manga => manga.prevChapter !== manga.lastChapter),
-    problem: state.manga.filter(manga => manga.status === MangaStatus.Error),
+const selector = createSelector([selectManga], (manga: Manga[]) => {
+    const updated = manga.filter(item => item.prevChapter !== item.lastChapter);
+    const problems = manga.filter(item => item.status === MangaStatus.Error);
+
+    return {
+        updated,
+        problems,
+        showUpdated: updated.length > 0,
+        showProblems: problems.length > 0,
+    };
 });
 
 const UpdateTab: FC = () => {
-    const { updated, problem } = useAppSelector(selector, shallowEqual);
+    const { updated, problems, showUpdated, showProblems } = useAppSelector(selector, shallowEqual);
 
     return (
         <Wrap>
-            <UpdateButton />
-            {updated.length > 0 ? (
+            {showUpdated || (showProblems && <UpdateButton />)}
+            {showUpdated ? (
                 <MangaList mangaList={updated} />
             ) : (
                 <Empty description={EMPTY_TEXT.newChapters} margin="30px 0 0 0" />
             )}
-            {problem.length > 0 && (
+            {showProblems && (
                 <>
                     <div>
                         <Typography.Title level={4}>Проблемы с обновлением</Typography.Title>
-                        <MangaList mangaList={problem} />
+                        <MangaList mangaList={problems} />
                     </div>
                     <Alert message={WARNING_TEXT.update} type="warning" />
                 </>
