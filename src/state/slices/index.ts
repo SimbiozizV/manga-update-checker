@@ -14,6 +14,7 @@ const mangaStorage = new MangaStorage(STORAGE_KEY);
 
 const initialState: Store = {
     manga: [],
+    filter: '',
     isAdding: false,
     isUpdating: false,
     isImported: false,
@@ -25,6 +26,9 @@ const slice = createSlice({
     reducers: {
         setUpdatingAction(store, { payload }: PayloadAction<boolean>) {
             store.isUpdating = payload;
+        },
+        setFilterAction(store, { payload }: PayloadAction<string>) {
+            store.filter = payload;
         },
         setAddingAction(store, { payload }: PayloadAction<boolean>) {
             store.isAdding = payload;
@@ -38,9 +42,11 @@ const slice = createSlice({
     },
 });
 
-export const { setUpdatingAction, setAddingAction, setMangaArrayAction, setImportingAction } = slice.actions;
+export const { setUpdatingAction, setFilterAction, setAddingAction, setMangaArrayAction, setImportingAction } =
+    slice.actions;
 
 export const selectManga = (state: Store) => state.manga;
+export const selectFilter = (state: Store) => state.filter;
 
 export const importFile =
     (importList: ExportItem[]): ThunkAction<void, Store, undefined, Action> =>

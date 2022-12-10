@@ -3,6 +3,7 @@ import getPluralForm from '../helpers/getPluralForm';
 export const EMPTY_TEXT = {
     list: 'Добавьте мангу в список',
     newChapters: 'Нет новых глав',
+    filter: 'Нет манги по вашему фильтру',
 };
 
 export const DEFAULT_ERROR = 'Что-то пошло не так';

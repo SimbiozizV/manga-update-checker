@@ -7,8 +7,6 @@ import { List } from 'antd';
 import styled from '@emotion/styled';
 
 const ListItem = styled(List)`
-    margin-top: 10px;
-
     .ant-list-item {
         padding-right: 0;
         padding-left: 0;

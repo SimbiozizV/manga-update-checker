@@ -1,43 +1,41 @@
 import React, { FC } from 'react';
 import MangaList from '../MangaList/MangaList';
 import { useAppSelector } from '../../hooks';
-import { selectManga } from '../../state/slices';
-import ExportButton from './ExportButton';
-import ImportButton from './ImportButton';
-import styled from '@emotion/styled';
+import { selectFilter, selectManga } from '../../state/slices';
 import { createSelector } from '@reduxjs/toolkit';
 import { Manga } from '../../types/Manga';
 import { EMPTY_TEXT } from '../../constants/text';
 import Empty from '../Empty';
+import FileOperations from './FileOperations';
+import Filter from './Filter';
+import TabWrap from '../TabWrap';
 
-const selector = createSelector([selectManga], (manga: Manga[]) => {
-    return [...manga].sort((a, b) => {
-        if (a.source > b.source) return -1;
-        if (a.source < b.source) return 1;
-        return 0;
-    });
+const selector = createSelector([selectManga, selectFilter], (manga: Manga[], filter) => {
+    return {
+        mangaList: [...manga]
+            .filter(item => item.title.toLowerCase().includes(filter))
+            .sort((a, b) => {
+                if (a.source > b.source) return -1;
+                if (a.source < b.source) return 1;
+                return 0;
+            }),
+        hasFilter: filter.length > 0,
+    };
 });
 
-const ButtonsWrap = styled.div`
-    display: flex;
-    gap: 0 10px;
-`;
-
 const MangaListTab: FC = () => {
-    const mangaList = useAppSelector(selector);
+    const { mangaList, hasFilter } = useAppSelector(selector);
 
     return (
-        <>
-            <ButtonsWrap>
-                <ExportButton />
-                <ImportButton />
-            </ButtonsWrap>
+        <TabWrap>
+            <FileOperations />
+            <Filter />
             {mangaList.length > 0 ? (
                 <MangaList mangaList={mangaList} />
             ) : (
-                <Empty description={EMPTY_TEXT.list} margin="30px 0 0 0" />
+                <Empty description={hasFilter ? EMPTY_TEXT.filter : EMPTY_TEXT.list} margin="30px 0 0 0" />
             )}
-        </>
+        </TabWrap>
     );
 };
 

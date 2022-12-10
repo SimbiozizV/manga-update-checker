@@ -12,6 +12,9 @@ export default (html: string): ParsedData | null => {
             .replace(/\s{2,}/g, '')
             .replace(/;$/, '');
         const data = JSON.parse(dataString);
+
+        if (data.manga.status === 4) return null; // Главы удалены по требованию правообладателя
+
         const chapter = data.chapters.list.shift();
         return {
             title: data.manga.rusName,

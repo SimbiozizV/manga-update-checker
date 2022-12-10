@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import styled from '@emotion/styled';
 import UpdateButton from './UpdateButton';
 import { useAppSelector } from '../../hooks';
 import MangaList from '../MangaList/MangaList';
@@ -11,12 +10,7 @@ import { Alert, Typography } from 'antd';
 import { createSelector } from '@reduxjs/toolkit';
 import { selectManga } from '../../state/slices';
 import { Manga } from '../../types/Manga';
-
-const Wrap = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px 0;
-`;
+import TabWrap from '../TabWrap';
 
 const selector = createSelector([selectManga], (manga: Manga[]) => {
     const updated = manga.filter(item => item.prevChapter !== item.lastChapter);
@@ -34,8 +28,8 @@ const UpdateTab: FC = () => {
     const { updated, problems, showUpdated, showProblems } = useAppSelector(selector, shallowEqual);
 
     return (
-        <Wrap>
-            {showUpdated || (showProblems && <UpdateButton />)}
+        <TabWrap>
+            {(showUpdated || showProblems) && <UpdateButton />}
             {showUpdated ? (
                 <MangaList mangaList={updated} />
             ) : (
@@ -50,7 +44,7 @@ const UpdateTab: FC = () => {
                     <Alert message={WARNING_TEXT.update} type="warning" />
                 </>
             )}
-        </Wrap>
+        </TabWrap>
     );
 };
 
