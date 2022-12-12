@@ -11,12 +11,20 @@ const WarningIcon = styled(WarningOutlined)`
     color: #ff4d4f;
 `;
 
+const NoWrap = styled.span`
+    white-space: nowrap;
+`;
+
 const BlockWrap = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 0 20px;
+    gap: 0 8px;
     width: 100%;
+
+    .ant-tag {
+        margin-right: 0;
+    }
 `;
 
 const InfoWrap = styled.div`
@@ -57,7 +65,7 @@ const MangaListItem: FC<Props> = ({
                 {status === MangaStatus.Error && <WarningIcon />}
                 {hasNewChapter ? (
                     <>
-                        <span>{`(${prevChapter} > ${lastChapter})`}</span>
+                        <NoWrap>{`(${prevChapter} > ${lastChapter})`}</NoWrap>
                         <Tag color="green">NEW</Tag>
                     </>
                 ) : (
