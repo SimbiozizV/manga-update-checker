@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import MangaListItem from './MangaListItem';
 import { useAppDispatch } from '../../hooks';
-import { onRedirectByLink, removeManga } from '../../state/slices';
+import { onRedirectByLink, removeManga } from '../../state/slices/mangaTab';
 import { Manga } from '../../types/Manga';
 import { List } from 'antd';
 import styled from '@emotion/styled';

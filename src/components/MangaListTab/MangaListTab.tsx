@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
 import MangaList from '../MangaList/MangaList';
 import { useAppSelector } from '../../hooks';
-import { selectFilter, selectManga } from '../../state/slices';
+import { selectFilter, selectManga } from '../../state/slices/mangaTab';
 import { createSelector } from '@reduxjs/toolkit';
 import { Manga } from '../../types/Manga';
 import { EMPTY_TEXT } from '../../constants/text';
 import Empty from '../Empty';
 import FileOperations from './FileOperations';
 import Filter from './Filter';
-import TabWrap from '../TabWrap';
+import TabWrap from '../../baseComponents/TabWrap';
 
 const selector = createSelector([selectManga, selectFilter], (manga: Manga[], filter) => {
     return {

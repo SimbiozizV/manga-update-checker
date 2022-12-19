@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 import { Button, Form, Input } from 'antd';
 import styled from '@emotion/styled';
-import { addManga } from '../state/slices';
+import { addManga, selectIsAdding } from '../state/slices/mangaTab';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { Store } from '../types/Store';
 import { PlusOutlined } from '@ant-design/icons';
 
 const StyledForm = styled(Form)`
@@ -22,10 +21,8 @@ const StyledForm = styled(Form)`
     }
 `;
 
-const selector = (state: Store) => state.isAdding;
-
 const AddForm: FC = () => {
-    const isAdding = useAppSelector(selector);
+    const isAdding = useAppSelector(selectIsAdding);
     const dispatch = useAppDispatch();
     const [form] = Form.useForm();
 

@@ -2,10 +2,10 @@ import React, { ChangeEvent, FC, createRef, useCallback } from 'react';
 import { Button } from 'antd';
 import { ImportOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { importFile } from '../../state/slices';
+import { importFile, selectIsImported } from '../../state/slices/mangaTab';
 
 const ImportButton: FC = () => {
-    const isImported = useAppSelector(state => state.isImported);
+    const isImported = useAppSelector(selectIsImported);
     const dispatch = useAppDispatch();
     const inputRef = createRef<HTMLInputElement>();
 

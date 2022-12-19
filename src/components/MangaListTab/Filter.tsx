@@ -1,18 +1,15 @@
 import React, { FC } from 'react';
-import { Input } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { selectFilter, setFilterAction } from '../../state/slices';
+import { selectFilter, setFilterAction } from '../../state/slices/mangaTab';
+import SearchForm from '../../baseComponents/SearchForm';
 const Filter: FC = () => {
     const dispatch = useAppDispatch();
     const filter = useAppSelector(selectFilter);
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setFilterAction(e.target.value));
+    const onChange = (value: string) => {
+        dispatch(setFilterAction(value));
     };
 
-    return (
-        <Input placeholder="Название манги" prefix={<SearchOutlined />} onChange={onChange} value={filter} allowClear />
-    );
+    return <SearchForm onChange={onChange} value={filter} />;
 };
 
 export default Filter;

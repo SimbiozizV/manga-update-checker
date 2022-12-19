@@ -4,13 +4,12 @@ import { useAppSelector } from '../../hooks';
 import MangaList from '../MangaList/MangaList';
 import { EMPTY_TEXT, WARNING_TEXT } from '../../constants/text';
 import Empty from '../Empty';
-import { shallowEqual } from 'react-redux';
 import { MangaStatus } from '../../enum';
 import { Alert, Typography } from 'antd';
 import { createSelector } from '@reduxjs/toolkit';
-import { selectManga } from '../../state/slices';
+import { selectManga } from '../../state/slices/mangaTab';
 import { Manga } from '../../types/Manga';
-import TabWrap from '../TabWrap';
+import TabWrap from '../../baseComponents/TabWrap';
 
 const selector = createSelector([selectManga], (manga: Manga[]) => {
     const updated = manga.filter(item => item.prevChapter !== item.lastChapter);
@@ -19,13 +18,13 @@ const selector = createSelector([selectManga], (manga: Manga[]) => {
     return {
         updated,
         problems,
-        showUpdated: updated.length > 0,
+        showUpdated: manga.length > 0,
         showProblems: problems.length > 0,
     };
 });
 
 const UpdateTab: FC = () => {
-    const { updated, problems, showUpdated, showProblems } = useAppSelector(selector, shallowEqual);
+    const { updated, problems, showUpdated, showProblems } = useAppSelector(selector);
 
     return (
         <TabWrap>
