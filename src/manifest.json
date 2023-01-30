@@ -2,14 +2,24 @@
   "name": "Manga update checker",
   "description": "Проверка обновлений манги",
   "manifest_version": 3,
+  "icons": {
+    "16": "gray.png",
+    "32": "gray.png",
+    "48": "gray.png",
+    "128": "gray.png"
+  },
   "action": {
     "default_popup": "index.html",
     "default_title": "Manga update checker - проверка обновлений манги"
   },
   "permissions": [
     "scripting",
-    "storage"
+    "storage",
+    "alarms"
   ],
+  "background": {
+    "service_worker": "./background.js"
+  },
   "host_permissions": [
     "*://*/*"
   ]

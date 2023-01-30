@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const baseManifest = require('./src/manifest.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const WebpackExtensionManifestPlugin = require('webpack-extension-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -15,6 +16,7 @@ module.exports = (_, argv) => {
         context: path.resolve(__dirname),
         entry: {
             app: './src/index.tsx',
+            background: './src/background.ts',
         },
         mode,
         output: {
@@ -48,6 +50,14 @@ module.exports = (_, argv) => {
                 __DEV__: isDevelop,
             }),
             new CleanWebpackPlugin(),
+            new CopyPlugin({
+                patterns: [
+                    {
+                        from: './src/icons/extension',
+                        to: './',
+                    },
+                ],
+            }),
             new HtmlWebpackPlugin({
                 title: 'ReadManga',
                 meta: {

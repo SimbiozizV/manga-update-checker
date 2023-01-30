@@ -1,4 +1,4 @@
-import getPluralForm from '../helpers/getPluralForm';
+import { getPluralForm } from '../helpers';
 
 export const EMPTY_TEXT = {
     list: 'Добавьте мангу в список',

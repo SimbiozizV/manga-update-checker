@@ -1,11 +1,11 @@
+import * as cheerio from 'cheerio';
 import { ParsedData } from '../types/ParsedData';
 
 export default (html: string): ParsedData | null => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
+    const $ = cheerio.load(html);
 
     try {
-        let dataString = doc.querySelector('script')!.innerHTML.split('window')[1];
+        let dataString = $('script')!.text().split('window')[1];
         dataString = dataString
             .replace('.__DATA__ = ', '')
             .replace(';', '')

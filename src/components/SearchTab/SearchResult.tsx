@@ -19,7 +19,7 @@ const SearchResult: FC = () => {
     return (
         <ResultWrap>
             {manga.map(item => (
-                <SearchResultItem {...item} />
+                <SearchResultItem key={item.href} {...item} />
             ))}
         </ResultWrap>
     );

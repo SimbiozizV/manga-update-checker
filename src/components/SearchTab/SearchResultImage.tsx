@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import getIconBySource from '../../helpers/getIconBySource';
+import { getIconBySource } from '../../helpers';
 import { SearchResultManga } from '../../types/search/SearchResultManga';
 
 const ImageWrap = styled.div`

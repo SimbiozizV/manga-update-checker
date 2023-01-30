@@ -3,7 +3,13 @@ import { Action, createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolki
 import { Manga } from '../../types/Manga';
 import { message } from 'antd';
 import getDataByUrl from '../../api/getDataByUrl';
-import { determinateSourceType, getParserBySourceType, prepareMangaUrl } from '../../helpers';
+import {
+    determinateSourceType,
+    getNewChaptersCount,
+    getParserBySourceType,
+    prepareMangaUrl,
+    setExtensionIconMode,
+} from '../../helpers';
 import MangaStorage from '../../class/MangaStorage';
 import { STORAGE_KEY } from '../../constants';
 import { ADD_MANGA_TEXT, IMPORT_MANGA_TEXT, UPDATE_MANGA_TEXT } from '../../constants/text';
@@ -82,6 +88,8 @@ export const importFile =
                 }, []);
 
                 const updatedList = [...manga, ...result];
+
+                setExtensionIconMode(getNewChaptersCount(updatedList));
                 dispatch(setMangaArrayAction(updatedList));
                 mangaStorage.setMangaList(updatedList);
 
@@ -98,7 +106,7 @@ export const importFile =
         }
     };
 
-const updateManga = (manga: Manga): Promise<Manga> => {
+export const updateManga = (manga: Manga): Promise<Manga> => {
     return getDataByUrl(manga.url, getParserBySourceType(manga.source)).then(data => {
         return data
             ? { ...manga, prevChapter: manga.lastChapter, lastChapter: data.lastChapter, status: MangaStatus.Success }
@@ -112,7 +120,7 @@ export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> 
     dispatch(setUpdatingAction(true));
     Promise.allSettled(manga.map(updateManga))
         .then(updatedManga => {
-            let hasProplem = false;
+            let hasProblem = false;
             let newChapterCount = 0;
 
             const result = updatedManga.reduce<Manga[]>((acc, mangaItem, key) => {
@@ -124,7 +132,7 @@ export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> 
                         status: mangaItem.value.status,
                     });
                 } else {
-                    hasProplem = true;
+                    hasProblem = true;
                     acc.push(manga[key]);
                 }
                 return acc;
@@ -133,11 +141,12 @@ export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> 
             dispatch(setMangaArrayAction(result));
             mangaStorage.setMangaList(result);
 
-            if (hasProplem) {
+            if (hasProblem) {
                 message.warning(UPDATE_MANGA_TEXT.error);
             } else {
                 message.success(UPDATE_MANGA_TEXT.success(newChapterCount));
             }
+            setExtensionIconMode(newChapterCount);
         })
         .finally(() => {
             dispatch(setUpdatingAction(false));
@@ -204,11 +213,23 @@ export const onRedirectByLink =
 
         const index = manga.findIndex(i => i.url === url);
         if (index > -1) {
-            const newList = manga.map((mangaItem, key) =>
-                key === index ? { ...mangaItem, prevChapter: mangaItem.lastChapter } : mangaItem
+            const { newList, newChaptersCount } = manga.reduce<{ newList: Manga[]; newChaptersCount: number }>(
+                (acc, manga, key) => {
+                    if (key === index) {
+                        acc.newList.push({ ...manga, prevChapter: manga.lastChapter });
+                    } else {
+                        acc.newList.push(manga);
+                        if (manga.prevChapter !== manga.lastChapter) {
+                            acc.newChaptersCount++;
+                        }
+                    }
+                    return acc;
+                },
+                { newList: [], newChaptersCount: 0 }
             );
-            newList[index].prevChapter = newList[index].lastChapter;
             dispatch(setMangaArrayAction(newList));
+            setExtensionIconMode(newChaptersCount);
+
             mangaStorage.saveStorage({ manga: newList }).then(() => {
                 chrome.tabs.create({ url, active: true });
             });

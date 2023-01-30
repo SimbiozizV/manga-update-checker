@@ -4,7 +4,7 @@ import { Manga } from '../../types/Manga';
 import { Tag, Typography } from 'antd';
 import styled from '@emotion/styled';
 import MangaRemoveButton from './MangaRemoveButton';
-import getIconBySource from '../../helpers/getIconBySource';
+import { getIconBySource } from '../../helpers';
 import { MangaStatus } from '../../enum';
 
 const WarningIcon = styled(WarningOutlined)`
