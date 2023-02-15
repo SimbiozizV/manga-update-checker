@@ -9,6 +9,7 @@
 * https://mangalib.me/
 * https://acomics.ru/
 * https://desu.me/
+* [https://реманга.орг](https://xn--80aaig9ahr.xn--c1avg/)
 
 ## Установка
 Для установки расширения сделать:

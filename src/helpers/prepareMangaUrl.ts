@@ -10,5 +10,11 @@ export default (url: string): string => {
         return urlObj.toString();
     }
 
+    if (type && type === SourceType.Remanga) {
+        const urlObj = new URL(url);
+        urlObj.searchParams.set('p', 'content');
+        return urlObj.toString();
+    }
+
     return url;
 };

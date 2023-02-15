@@ -4,6 +4,7 @@ import { SearchResultManga } from '../../types/search/SearchResultManga';
 import { searchReadMangaRequest } from '../../api/readManga';
 import { searchMangaLibRequest } from '../../api/mangaLib';
 import { searchDesuRequest } from '../../api/desu';
+import { searchRemangaRequest } from '../../api/remanga';
 
 const initialState: Store['searchTab'] = {
     manga: [],
@@ -32,7 +33,12 @@ export const searchMangaByName =
     dispatch => {
         if (name) {
             dispatch(setWaiting(true));
-            Promise.allSettled([searchReadMangaRequest(name), searchMangaLibRequest(name), searchDesuRequest(name)])
+            Promise.allSettled([
+                searchReadMangaRequest(name),
+                searchMangaLibRequest(name),
+                searchDesuRequest(name),
+                searchRemangaRequest(name),
+            ])
                 .then(results => {
                     let searchResult: SearchResultManga[] = [];
                     results.forEach(result => {

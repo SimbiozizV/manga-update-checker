@@ -3,6 +3,7 @@ export enum SourceType {
     MangaLib = 'mangaLib',
     AK = 'acomics',
     Desu = 'desu',
+    Remanga = 'remanga',
 }
 
 export enum MangaStatus {
