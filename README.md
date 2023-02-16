@@ -3,12 +3,12 @@
 Это расширение для Chrome позволяющее проверять появились ли новые главы манги без посещения сайта
 
 На данный момент расширение поддерживает следующие сайты:
-* https://readmanga.live/
-* https://mintmanga.live/
-* https://selfmanga.live/
-* https://mangalib.me/
-* https://acomics.ru/
-* https://desu.me/
+* https://readmanga.live
+* https://mintmanga.live
+* https://selfmanga.live
+* https://mangalib.me
+* https://acomics.ru
+* https://desu.me
 * [https://реманга.орг](https://xn--80aaig9ahr.xn--c1avg/)
 
 ## Установка
