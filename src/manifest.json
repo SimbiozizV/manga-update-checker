@@ -15,7 +15,9 @@
   "permissions": [
     "scripting",
     "storage",
-    "alarms"
+    "alarms",
+    "notifications",
+    "nativeMessaging"
   ],
   "background": {
     "service_worker": "./background.js"

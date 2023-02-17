@@ -1,5 +1,10 @@
 import { getPluralForm } from '../helpers';
 
+export const NOTIFICATION = {
+    title: 'Подсказка по главе',
+    message: (lastChapter: any) => `В прошлый раз вы остановились на главе ${lastChapter}`,
+};
+
 export const EMPTY_TEXT = {
     list: 'Добавьте мангу в список',
     newChapters: 'Нет новых глав',

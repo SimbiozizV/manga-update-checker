@@ -36,3 +36,9 @@ chrome.alarms.onAlarm.addListener(async () => {
 
     setExtensionIconMode(getNewChaptersCount(result));
 });
+
+chrome.runtime.onMessage.addListener(data => {
+    if (data.type === 'notification') {
+        chrome.notifications.create('', data.options);
+    }
+});

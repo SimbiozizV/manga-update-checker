@@ -6,6 +6,8 @@ import styled from '@emotion/styled';
 import MangaRemoveButton from './MangaRemoveButton';
 import { getIconBySource } from '../../helpers';
 import { MangaStatus } from '../../enum';
+import showNotification from '../../helpers/showNotification';
+import { NOTIFICATION } from '../../constants/text';
 
 const WarningIcon = styled(WarningOutlined)`
     color: #ff4d4f;
@@ -45,9 +47,15 @@ const MangaListItem: FC<Props> = ({
     onRedirect,
 }) => {
     const hasNewChapter = lastChapter !== prevChapter;
+    const iconUrl = getIconBySource(source);
 
     const onLinkClick = (e: MouseEvent) => {
         e.preventDefault();
+        showNotification({
+            title: NOTIFICATION.title,
+            message: NOTIFICATION.message(lastChapter),
+            iconUrl,
+        });
         onRedirect(url);
     };
 
@@ -58,7 +66,7 @@ const MangaListItem: FC<Props> = ({
     return (
         <BlockWrap>
             <InfoWrap>
-                <img src={getIconBySource(source)} alt="icon" />
+                <img src={iconUrl} alt="icon" />
                 <Typography.Link href={url} target="_blank" onClick={onLinkClick}>
                     {title}
                 </Typography.Link>{' '}
