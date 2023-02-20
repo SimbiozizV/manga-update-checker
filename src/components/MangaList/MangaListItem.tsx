@@ -53,7 +53,7 @@ const MangaListItem: FC<Props> = ({
         e.preventDefault();
         showNotification({
             title: NOTIFICATION.title,
-            message: NOTIFICATION.message(lastChapter),
+            message: NOTIFICATION.message(prevChapter),
             iconUrl,
         });
         onRedirect(url);
