@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        { "header": "origin", "operation": "set", "value": "https://xn--80aaig9ahr.xn--c1avg" },
+        { "header": "referer", "operation": "set", "value": "https://xn--80aaig9ahr.xn--c1avg/" },
+        { "header": "preference", "operation": "set", "value": "1" },
+        { "header": "sec-fetch-site", "operation": "set", "value": "same-site" }
+      ]
+    },
+    "condition": { "urlFilter": "api.xn--80aaig9ahr.xn--c1avg", "resourceTypes": ["xmlhttprequest"] }
+  }
+]

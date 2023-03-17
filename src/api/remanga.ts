@@ -27,8 +27,13 @@ export const searchRemangaRequest = (name: string): Promise<SearchResultManga[]>
 };
 
 export const getRemangaChaptersRequest = (id: number): Promise<string | null> => {
-    const url = `https://api.xn--80aaig9ahr.xn--c1avg/api/titles/chapters/?branch_id=${id}&ordering=-index`;
-    return makeRequest<RemangaChaptersResponse>(url).then(response => {
+    const url = `https://api.xn--80aaig9ahr.xn--c1avg/api/titles/chapters/?branch_id=${id}&ordering=-index&user_data=1&count=40&page=1`;
+    return makeRequest<RemangaChaptersResponse>(url, {
+        credentials: 'omit',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }).then(response => {
         if (response.content.length) {
             const freeChapters = response.content.filter(manga => !manga.is_paid);
             return freeChapters.length ? response.content.filter(manga => !manga.is_paid)[0].chapter : null;

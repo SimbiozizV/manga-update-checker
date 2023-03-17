@@ -12,12 +12,22 @@
     "default_popup": "index.html",
     "default_title": "Manga update checker - проверка обновлений манги"
   },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
   "permissions": [
     "scripting",
     "storage",
     "alarms",
     "notifications",
-    "nativeMessaging"
+    "nativeMessaging",
+    "declarativeNetRequest"
   ],
   "background": {
     "service_worker": "./background.js"

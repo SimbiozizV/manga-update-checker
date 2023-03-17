@@ -56,6 +56,10 @@ module.exports = (_, argv) => {
                         from: './src/icons/extension',
                         to: './',
                     },
+                    {
+                        from: './src/rules.json',
+                        to: './',
+                    },
                 ],
             }),
             new HtmlWebpackPlugin({
