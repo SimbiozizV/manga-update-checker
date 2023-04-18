@@ -10,6 +10,7 @@
 * https://acomics.ru
 * https://desu.me
 * [https://реманга.орг](https://xn--80aaig9ahr.xn--c1avg/)
+* https://manga.ovh
 
 ## Установка
 Для установки расширения сделать:
