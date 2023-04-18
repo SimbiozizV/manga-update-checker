@@ -4,6 +4,7 @@ import readMangaIcon from '../icons/readmanga.png';
 import acomicsIcon from '../icons/acomics.png';
 import desuIcon from '../icons/desu.png';
 import remangaIcon from '../icons/remanga.png';
+import mangaOvhIcon from '../icons/mangaOvh.png';
 
 const iconMap: Record<SourceType, string> = {
     [SourceType.ReadManga]: readMangaIcon,
@@ -11,6 +12,7 @@ const iconMap: Record<SourceType, string> = {
     [SourceType.AK]: acomicsIcon,
     [SourceType.Desu]: desuIcon,
     [SourceType.Remanga]: remangaIcon,
+    [SourceType.MangaOvh]: mangaOvhIcon,
 };
 
 export default (source: SourceType): string => iconMap[source];

@@ -16,6 +16,8 @@ export default (url: string): SourceType | null => {
             return SourceType.ReadManga;
         case 'xn--80aaig9ahr.xn--c1avg':
             return SourceType.Remanga;
+        case 'manga.ovh':
+            return SourceType.MangaOvh;
         default:
             return null;
     }

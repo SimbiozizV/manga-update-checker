@@ -5,6 +5,7 @@ import { searchReadMangaRequest } from '../../api/readManga';
 import { searchMangaLibRequest } from '../../api/mangaLib';
 import { searchDesuRequest } from '../../api/desu';
 import { searchRemangaRequest } from '../../api/remanga';
+import { searchMangaOvh } from '../../api/mangaOvh';
 
 const initialState: Store['searchTab'] = {
     manga: [],
@@ -38,6 +39,7 @@ export const searchMangaByName =
                 searchMangaLibRequest(name),
                 searchDesuRequest(name),
                 searchRemangaRequest(name),
+                searchMangaOvh(name),
             ])
                 .then(results => {
                     let searchResult: SearchResultManga[] = [];

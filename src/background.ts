@@ -10,7 +10,7 @@ chrome.runtime.onInstalled.addListener(async () => {
     setExtensionIconMode(getNewChaptersCount(manga));
 
     chrome.alarms.get('periodic', a => {
-        if (!a) chrome.alarms.create('periodic', { periodInMinutes: 1.0 });
+        if (!a) chrome.alarms.create('periodic', { periodInMinutes: 10.0 });
     });
 });
 

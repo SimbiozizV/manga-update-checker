@@ -15,7 +15,7 @@ export default (url: string): string => {
         return `${urlObj.origin}/${splitPath[0]}?section=chapters`;
     }
 
-    if (type === SourceType.Desu) {
+    if (type === SourceType.Desu || type === SourceType.MangaOvh) {
         return `${urlObj.origin}/manga/${splitPath[1]}`;
     }
 

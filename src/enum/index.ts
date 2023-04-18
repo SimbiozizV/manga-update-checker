@@ -4,6 +4,7 @@ export enum SourceType {
     AK = 'acomics',
     Desu = 'desu',
     Remanga = 'remanga',
+    MangaOvh = 'mangaOvh',
 }
 
 export enum MangaStatus {
