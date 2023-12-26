@@ -78,7 +78,7 @@ export const importFile =
                         acc.push({
                             url: newManga[index].url,
                             title: mangaItem.value.title,
-                            prevChapter: newManga[index].lastChapter,
+                            prevChapter: newManga[index].prevChapter,
                             lastChapter: mangaItem.value.lastChapter,
                             status: MangaStatus.Success,
                             source: newManga[index].source,
