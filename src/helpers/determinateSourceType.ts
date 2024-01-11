@@ -15,6 +15,7 @@ export default (url: string): SourceType | null => {
         case 'selfmanga.live':
             return SourceType.ReadManga;
         case 'xn--80aaig9ahr.xn--c1avg':
+        case 'remanga.org':
             return SourceType.Remanga;
         case 'manga.ovh':
             return SourceType.MangaOvh;

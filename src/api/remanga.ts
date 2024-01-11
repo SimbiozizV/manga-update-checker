@@ -27,7 +27,7 @@ export const searchRemangaRequest = (name: string): Promise<SearchResultManga[]>
 };
 
 export const getRemangaChaptersRequest = (id: number): Promise<string | null> => {
-    const url = `https://api.xn--80aaig9ahr.xn--c1avg/api/titles/chapters/?branch_id=${id}&ordering=-index&user_data=1&count=40&page=1`;
+    const url = `https://api.xn--80aaig9ahr.xn--c1avg/api/titles/chapters/?branch_id=${id}&ordering=-index&user_data=1&count=100&page=1`;
     return makeRequest<RemangaChaptersResponse>(url, {
         credentials: 'omit',
         headers: {
