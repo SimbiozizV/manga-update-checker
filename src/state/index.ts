@@ -6,14 +6,14 @@ import { Store as StoreType } from '../types/Store';
 
 export const initStore = (manga: Manga[]) => {
     const preloadedState: StoreType = {
-        mangaTab: {
+        mangaPage: {
             manga,
             filter: '',
             isAdding: false,
             isUpdating: false,
             isImported: false,
         },
-        searchTab: {
+        searchPage: {
             manga: [],
             isWaiting: false,
         },

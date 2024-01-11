@@ -1,4 +1,4 @@
 import { combineReducers } from 'redux';
-import mangaTab from './mangaTab';
-import searchTab from './searchTab';
-export default combineReducers({ mangaTab, searchTab });
+import mangaPage from './mangaPage';
+import searchPage from './searchPage';
+export default combineReducers({ mangaPage, searchPage });

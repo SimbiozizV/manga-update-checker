@@ -1,16 +1,11 @@
-import React, { FC, PropsWithChildren } from 'react';
 import styled from '@emotion/styled';
 
-const Wrap = styled.div`
+const Container = styled.div`
     width: 500px;
-    max-height: 800px;
-    padding: 0 20px 20px;
+    padding: 20px 20px;
+    font-size: 14px;
     background: #fff;
-    overflow-y: auto;
+    color: #333;
 `;
-
-const Container: FC<PropsWithChildren> = ({ children }) => {
-    return <Wrap>{children}</Wrap>;
-};
 
 export default Container;

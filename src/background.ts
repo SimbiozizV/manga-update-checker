@@ -1,6 +1,6 @@
 import MangaStorage from './class/MangaStorage';
 import { STORAGE_KEY } from './constants';
-import { updateManga } from './state/slices/mangaTab';
+import { updateManga } from './state/slices/mangaPage';
 import { Manga } from './types/Manga';
 import { getNewChaptersCount, setExtensionIconMode } from './helpers';
 chrome.runtime.onInstalled.addListener(async () => {
@@ -23,6 +23,7 @@ chrome.alarms.onAlarm.addListener(async () => {
         if (mangaItem.status === 'fulfilled') {
             acc.push({
                 ...manga[key],
+                image: mangaItem.value.image,
                 lastChapter: mangaItem.value.lastChapter,
                 status: mangaItem.value.status,
             });

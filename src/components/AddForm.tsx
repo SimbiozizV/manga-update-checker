@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Button, Form, Input } from 'antd';
 import styled from '@emotion/styled';
-import { addManga, selectIsAdding } from '../state/slices/mangaTab';
+import { addManga, selectIsAdding } from '../state/slices/mangaPage';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { PlusOutlined } from '@ant-design/icons';
 
@@ -9,6 +9,10 @@ const StyledForm = styled(Form)`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr min-content;
+
+    .ant-form-item {
+        margin-bottom: 0;
+    }
 
     .ant-input {
         border-top-right-radius: 0;

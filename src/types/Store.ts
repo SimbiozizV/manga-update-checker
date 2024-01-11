@@ -2,14 +2,14 @@ import { Manga } from './Manga';
 import { SearchResultManga } from './search/SearchResultManga';
 
 export type Store = {
-    mangaTab: {
+    mangaPage: {
         manga: Manga[];
         filter: string;
         isAdding: boolean;
         isUpdating: boolean;
         isImported: boolean;
     };
-    searchTab: {
+    searchPage: {
         manga: SearchResultManga[];
         isWaiting: boolean;
     };

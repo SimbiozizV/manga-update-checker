@@ -4,7 +4,7 @@
 
 На данный момент расширение поддерживает следующие сайты:
 * https://readmanga.live
-* https://mintmanga.live
+* https://1.mintmanga.one
 * https://selfmanga.live
 * https://mangalib.me
 * https://acomics.ru

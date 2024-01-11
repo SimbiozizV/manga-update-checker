@@ -1,3 +1,5 @@
-import { Manga } from './Manga';
+import { ParsedData } from './ParsedData';
 
-export type Parser = (url: string) => Pick<Manga, 'title' | 'lastChapter'> | null;
+export type Parser = (url: string) => ParsedData | null;
+
+export type AsyncParser = (url: string) => Promise<ParsedData | null>;

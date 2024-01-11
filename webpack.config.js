@@ -32,7 +32,7 @@ module.exports = (_, argv) => {
                         loader: 'babel-loader',
                     },
                 },
-                { test: /\.(jpg|png)$/, use: { loader: 'file-loader' } },
+                { test: /\.(jpg|png)$/, type: 'asset/resource' },
             ],
         },
         cache: {

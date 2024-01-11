@@ -5,3 +5,6 @@ export { default as getParserBySourceType } from './getParserBySourceType';
 export { default as getIconBySource } from './getIconBySource';
 export { default as setExtensionIconMode } from './setExtensionIconMode';
 export { default as getNewChaptersCount } from './getNewChaptersCount';
+export { default as showMangaNotification } from './showMangaNotification';
+export { default as makeFileName } from './makeFileName';
+export { default as prepareMangaToExport } from './prepareMangaToExport';

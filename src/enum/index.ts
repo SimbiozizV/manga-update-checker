@@ -11,3 +11,10 @@ export enum MangaStatus {
     Success,
     Error,
 }
+
+export enum Route {
+    Root = '/',
+    MangaList = '/list',
+    Search = '/search',
+    AddManga = '/add',
+}
