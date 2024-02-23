@@ -14,12 +14,12 @@ export const searchDesuRequest = (name: string): Promise<SearchResultManga[]> =>
         if (items.length) {
             const result: SearchResultManga[] = [];
             items.forEach(item => {
-                const titleElement = item.querySelector('.itemTitle');
+                const titleElement = item.querySelector<HTMLDivElement>('.itemTitle');
                 if (titleElement) {
                     result.push({
-                        name: item.querySelector('.itemSubTitle')!.innerText,
+                        name: item.querySelector<HTMLDivElement>('.itemSubTitle')!.innerText,
                         nameEng: titleElement.innerText as string,
-                        thumbnail: `https://desu.me${item.querySelector('img').getAttribute('src')}`,
+                        thumbnail: `https://desu.me${item.querySelector<HTMLImageElement>('img')?.getAttribute('src')}`,
                         href: `https://desu.me/${item.getAttribute('href')}`,
                         source: SourceType.Desu,
                     });
