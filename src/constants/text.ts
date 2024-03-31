@@ -15,6 +15,10 @@ export const DEFAULT_ERROR = 'Что-то пошло не так';
 
 export const CONFIRM_DELETE_TEXT = 'Вы точно хотите удалить мангу?';
 
+export const SEARCH_MANGA_TEXT = {
+    error: 'Во время поиска возникла ошибка',
+};
+
 export const ADD_MANGA_TEXT = {
     success: 'Манга успешно добавлена',
     error: 'Ошибка добавления манги',

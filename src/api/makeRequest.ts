@@ -7,24 +7,23 @@ type MakeRequest = <T>(
 ) => Promise<T>;
 
 const makeRequest: MakeRequest = async (url, options) => {
-    let errorMessage = options?.errorMessage || DEFAULT_ERROR;
+    const { errorMessage = DEFAULT_ERROR, successMessage } = options || {};
     try {
         const response = await fetch(url, options);
 
         if (response.ok) {
-            if (options?.successMessage) message.success(options.successMessage);
+            if (successMessage) message.success(successMessage);
             return options?.stringType ? await response.text() : await response.json();
         }
 
         throw new Error(errorMessage);
     } catch (err) {
         if (err instanceof Error) {
-            errorMessage = err.message;
             message.error(errorMessage);
         }
-    }
 
-    throw new Error(errorMessage);
+        throw err;
+    }
 };
 
 export default makeRequest;

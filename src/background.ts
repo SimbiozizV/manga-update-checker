@@ -1,7 +1,6 @@
 import MangaStorage from './class/MangaStorage';
 import { STORAGE_KEY } from './constants';
 import { updateManga } from './state/slices/mangaPage';
-import { Manga } from './types/Manga';
 import { getNewChaptersCount, setExtensionIconMode } from './helpers';
 chrome.runtime.onInstalled.addListener(async () => {
     const store = new MangaStorage(STORAGE_KEY);
@@ -19,19 +18,18 @@ chrome.alarms.onAlarm.addListener(async () => {
     const { manga } = await store.getStorage();
 
     const updatedManga = await Promise.allSettled(manga.map(updateManga));
-    const result = updatedManga.reduce<Manga[]>((acc, mangaItem, key) => {
-        if (mangaItem.status === 'fulfilled') {
-            acc.push({
-                ...manga[key],
-                image: mangaItem.value.image,
-                lastChapter: mangaItem.value.lastChapter,
-                status: mangaItem.value.status,
-            });
-        } else {
-            acc.push(manga[key]);
-        }
-        return acc;
-    }, []);
+    const result = updatedManga.map((item, key) => {
+        return item.status === 'fulfilled'
+            ? {
+                  ...manga[key],
+                  image: item.value.image,
+                  title: item.value.title,
+                  url: item.value.url,
+                  lastChapter: item.value.lastChapter,
+                  status: item.value.status,
+              }
+            : manga[key];
+    });
 
     await store.setMangaList(result);
 

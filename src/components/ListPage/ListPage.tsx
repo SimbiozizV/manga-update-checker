@@ -15,12 +15,8 @@ const selector = createSelector([selectManga, selectFilter], (manga: Manga[], fi
     return {
         mangaList: [...manga]
             .filter(item => item.title.toLowerCase().includes(filter))
-            .sort((a, b) => {
-                if (a.source > b.source) return -1;
-                if (a.source < b.source) return 1;
-                return 0;
-            }),
-        hasFilter: filter.length > 0,
+            .sort((a, b) => a.source.localeCompare(b.source)),
+        hasFilter: Boolean(filter.length),
     };
 });
 

@@ -1,8 +1,6 @@
 import React, { FC, PropsWithChildren } from 'react';
 import Menu from '../components/Menu';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
-import { Route } from '../enum';
 import AddForm from '../components/AddForm';
 
 const Wrap = styled.div`

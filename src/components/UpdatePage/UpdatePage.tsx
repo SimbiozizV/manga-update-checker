@@ -53,7 +53,7 @@ const UpdatePage: FC = () => {
             {showProblems && (
                 <ProblemBlock>
                     {problems.map(manga => (
-                        <ProblemItem manga={manga} onClick={handleProblemClick} />
+                        <ProblemItem key={manga.url} manga={manga} onClick={handleProblemClick} />
                     ))}
                 </ProblemBlock>
             )}

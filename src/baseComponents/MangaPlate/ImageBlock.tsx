@@ -8,8 +8,8 @@ const ImageWrap = styled.div`
 `;
 
 const MainImage = styled.img`
-    height: 135px;
-    width: 135px;
+    height: 145px;
+    width: 145px;
     object-fit: cover;
     object-position: center;
 `;

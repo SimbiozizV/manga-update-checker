@@ -6,10 +6,9 @@ import PlateTitle from './PlateTitle';
 
 const Plate = styled.div`
     display: grid;
-    grid-template-rows: 135px 1fr;
+    grid-template-rows: 145px 1fr;
     gap: 10px 0;
     width: 145px;
-    padding: 5px 5px 10px 5px;
     cursor: pointer;
 
     &:hover {

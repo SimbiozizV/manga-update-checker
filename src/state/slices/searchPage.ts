@@ -6,6 +6,8 @@ import { searchMangaLibRequest } from '../../api/mangaLib';
 import { searchDesuRequest } from '../../api/desu';
 import { searchRemangaRequest } from '../../api/remanga';
 import { searchMangaOvh } from '../../api/mangaOvh';
+import { message } from 'antd';
+import { SEARCH_MANGA_TEXT } from '../../constants/text';
 
 const initialState: Store['searchPage'] = {
     manga: [],
@@ -31,36 +33,32 @@ export const selectSearchPage = (state: Store) => state.searchPage;
 
 export const searchMangaByName =
     (name: string): ThunkAction<void, Store, undefined, Action> =>
-    dispatch => {
-        if (name) {
-            dispatch(setWaiting(true));
-            Promise.allSettled([
+    async dispatch => {
+        if (!name) {
+            dispatch(setManga([]));
+            return;
+        }
+
+        dispatch(setWaiting(true));
+        try {
+            const response = await Promise.allSettled([
                 searchReadMangaRequest(name),
                 searchMangaLibRequest(name),
                 searchDesuRequest(name),
                 searchRemangaRequest(name),
                 searchMangaOvh(name),
-            ])
-                .then(results => {
-                    let searchResult: SearchResultManga[] = [];
-                    results.forEach(result => {
-                        if (result.status === 'fulfilled') {
-                            const responseResult = result.value.filter(
-                                item => item.name && item.thumbnail && item.href
-                            );
-                            if (responseResult.length) {
-                                searchResult = [...searchResult, ...responseResult];
-                            }
-                        }
-                    });
+            ]);
 
-                    if (searchResult.length) dispatch(setManga(searchResult));
-                })
-                .finally(() => {
-                    dispatch(setWaiting(false));
-                });
-        } else {
-            dispatch(setManga([]));
+            let searchResult: SearchResultManga[] = response
+                .flatMap(result => (result.status === 'fulfilled' ? result.value : []))
+                .filter(item => item.name && item.thumbnail && item.href)
+                .sort((a, b) => a.name.localeCompare(b.name));
+
+            if (searchResult.length) dispatch(setManga(searchResult));
+        } catch (error) {
+            message.error(SEARCH_MANGA_TEXT.error);
+        } finally {
+            dispatch(setWaiting(false));
         }
     };
 

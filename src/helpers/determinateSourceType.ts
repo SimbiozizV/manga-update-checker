@@ -11,7 +11,7 @@ export default (url: string): SourceType | null => {
         case 'desu.me':
             return SourceType.Desu;
         case 'readmanga.live':
-        case '1.mintmanga.one':
+        case '2.mintmanga.one':
         case 'selfmanga.live':
             return SourceType.ReadManga;
         case 'xn--80aaig9ahr.xn--c1avg':

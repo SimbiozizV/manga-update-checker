@@ -60,111 +60,119 @@ export const selectIsUpdating = (state: Store) => state.mangaPage.isUpdating;
 
 export const importFile =
     (importList: ExportItem[]): ThunkAction<void, Store, undefined, Action> =>
-    (dispatch, getState) => {
+    async (dispatch, getState) => {
         const { manga } = getState().mangaPage;
 
         dispatch(setImportingAction(true));
-        const newManga = importList.filter(({ url }) => manga.findIndex(i => i.url === url) === -1);
+        try {
+            const newManga = importList.filter(({ url }) => manga.findIndex(i => i.url === url) === -1);
 
-        if (newManga.length) {
+            if (!newManga.length) {
+                dispatch(setImportingAction(false));
+                message.warning(IMPORT_MANGA_TEXT.noNew);
+                return;
+            }
+
             if (newManga.length !== importList.length) {
                 message.warning(IMPORT_MANGA_TEXT.alreadyExist);
             }
 
-            Promise.allSettled(
+            const response = await Promise.allSettled(
                 newManga.map(({ url, source }) => getDataByUrl(url, getParserBySourceType(source)))
-            ).then(data => {
-                const result = data.reduce<Manga[]>((acc, mangaItem, index) => {
-                    if (mangaItem.status === 'fulfilled' && mangaItem.value) {
-                        acc.push({
-                            url: newManga[index].url,
-                            title: mangaItem.value.title,
-                            image: mangaItem.value.image,
-                            prevChapter: newManga[index].prevChapter,
-                            lastChapter: mangaItem.value.lastChapter,
-                            status: MangaStatus.Success,
-                            source: newManga[index].source,
-                        });
-                    }
-                    return acc;
-                }, []);
+            );
 
-                const updatedList = [...manga, ...result];
-
-                setExtensionIconMode(getNewChaptersCount(updatedList));
-                dispatch(setMangaArrayAction(updatedList));
-                mangaStorage.setMangaList(updatedList);
-
-                if (newManga.length !== result.length) {
-                    message.error(IMPORT_MANGA_TEXT.error);
-                } else {
-                    message.success(IMPORT_MANGA_TEXT.success);
-                }
-                dispatch(setImportingAction(false));
-            });
-        } else {
-            dispatch(setImportingAction(false));
-            message.warning(IMPORT_MANGA_TEXT.noNew);
-        }
-    };
-
-export const updateManga = (manga: Manga): Promise<Manga> => {
-    return getDataByUrl(manga.url, getParserBySourceType(manga.source)).then(data => {
-        return data
-            ? {
-                  ...manga,
-                  prevChapter: manga.lastChapter,
-                  image: data.image,
-                  lastChapter: data.lastChapter,
-                  status: MangaStatus.Success,
-              }
-            : { ...manga, status: MangaStatus.Error };
-    });
-};
-
-export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> => (dispatch, getState) => {
-    const { manga } = getState().mangaPage;
-
-    dispatch(setUpdatingAction(true));
-    Promise.allSettled(manga.map(updateManga))
-        .then(updatedManga => {
-            let hasProblem = false;
-            let newChapterCount = 0;
-
-            const result = updatedManga.reduce<Manga[]>((acc, mangaItem, key) => {
-                if (mangaItem.status === 'fulfilled') {
-                    if (manga[key].lastChapter !== mangaItem.value.lastChapter) newChapterCount++;
+            const result = response.reduce<Manga[]>((acc, mangaItem, index) => {
+                if (mangaItem.status === 'fulfilled' && mangaItem.value) {
                     acc.push({
-                        ...manga[key],
+                        url: newManga[index].url,
+                        title: mangaItem.value.title,
                         image: mangaItem.value.image,
+                        prevChapter: newManga[index].prevChapter,
                         lastChapter: mangaItem.value.lastChapter,
-                        status: mangaItem.value.status,
+                        status: MangaStatus.Success,
+                        source: newManga[index].source,
                     });
-                } else {
-                    hasProblem = true;
-                    acc.push({ ...manga[key], status: MangaStatus.Error });
                 }
                 return acc;
             }, []);
 
-            dispatch(setMangaArrayAction(result));
-            mangaStorage.setMangaList(result);
+            const updatedList = [...manga, ...result];
 
-            if (hasProblem) {
-                message.warning(UPDATE_MANGA_TEXT.error);
+            setExtensionIconMode(getNewChaptersCount(updatedList));
+            dispatch(setMangaArrayAction(updatedList));
+            await mangaStorage.setMangaList(updatedList);
+
+            if (newManga.length !== result.length) {
+                message.error(IMPORT_MANGA_TEXT.error);
             } else {
-                message.success(UPDATE_MANGA_TEXT.success(newChapterCount));
+                message.success(IMPORT_MANGA_TEXT.success);
             }
-            setExtensionIconMode(newChapterCount);
-        })
-        .finally(() => {
-            dispatch(setUpdatingAction(false));
-        });
+        } catch (error) {
+            message.error(IMPORT_MANGA_TEXT.error);
+        } finally {
+            dispatch(setImportingAction(false));
+        }
+    };
+
+export const updateManga = async (manga: Manga): Promise<Manga> => {
+    const response = await getDataByUrl(manga.url, getParserBySourceType(manga.source));
+
+    return response
+        ? {
+              ...manga,
+              prevChapter: manga.lastChapter,
+              image: response.image,
+              lastChapter: response.lastChapter,
+              status: MangaStatus.Success,
+          }
+        : { ...manga, status: MangaStatus.Error };
+};
+
+export const checkMangaUpdate = (): ThunkAction<void, Store, undefined, Action> => async (dispatch, getState) => {
+    const { manga } = getState().mangaPage;
+
+    dispatch(setUpdatingAction(true));
+    try {
+        const response = await Promise.allSettled(manga.map(updateManga));
+
+        let hasProblem = false;
+        let newChapterCount = 0;
+
+        const result = response.reduce<Manga[]>((acc, mangaItem, key) => {
+            if (mangaItem.status === 'fulfilled') {
+                if (manga[key].lastChapter !== mangaItem.value.lastChapter) newChapterCount++;
+                acc.push({
+                    ...manga[key],
+                    image: mangaItem.value.image,
+                    lastChapter: mangaItem.value.lastChapter,
+                    status: mangaItem.value.status,
+                });
+            } else {
+                hasProblem = true;
+                acc.push({ ...manga[key], status: MangaStatus.Error });
+            }
+            return acc;
+        }, []);
+
+        dispatch(setMangaArrayAction(result));
+        await mangaStorage.setMangaList(result);
+
+        if (hasProblem) {
+            message.warning(UPDATE_MANGA_TEXT.error);
+        } else {
+            message.success(UPDATE_MANGA_TEXT.success(newChapterCount));
+        }
+        setExtensionIconMode(newChapterCount);
+    } catch (error) {
+        message.warning(UPDATE_MANGA_TEXT.error);
+    } finally {
+        dispatch(setUpdatingAction(false));
+    }
 };
 
 export const addManga =
     (url: string): ThunkAction<void, Store, undefined, Action> =>
-    (dispatch, getState) => {
+    async (dispatch, getState) => {
         const { manga } = getState().mangaPage;
         const fixedUrl = prepareMangaUrl(url);
         const source = determinateSourceType(fixedUrl);
@@ -180,71 +188,72 @@ export const addManga =
         }
 
         dispatch(setAddingAction(true));
-        getDataByUrl(fixedUrl, getParserBySourceType(source))
-            .then(data => {
-                if (data) {
-                    const newList = [...manga];
-                    newList.push({
-                        url: fixedUrl,
-                        title: data.title,
-                        image: data.image,
-                        prevChapter: data.lastChapter,
-                        lastChapter: data.lastChapter,
-                        status: MangaStatus.Success,
-                        source,
-                    });
+        try {
+            const response = await getDataByUrl(fixedUrl, getParserBySourceType(source));
+            if (!response) {
+                message.error(ADD_MANGA_TEXT.error);
+                return;
+            }
 
-                    dispatch(setMangaArrayAction(newList));
-                    mangaStorage.saveStorage({ manga: newList });
-                    message.success(ADD_MANGA_TEXT.success);
-                } else {
-                    message.error(ADD_MANGA_TEXT.error);
-                }
-            })
-            .finally(() => {
-                dispatch(setAddingAction(false));
+            const newList = [...manga];
+            newList.push({
+                url: fixedUrl,
+                title: response.title,
+                image: response.image,
+                prevChapter: response.lastChapter,
+                lastChapter: response.lastChapter,
+                status: MangaStatus.Success,
+                source,
             });
+
+            dispatch(setMangaArrayAction(newList));
+            await mangaStorage.saveStorage({ manga: newList });
+            message.success(ADD_MANGA_TEXT.success);
+        } catch (error) {
+            message.error(ADD_MANGA_TEXT.error);
+        } finally {
+            dispatch(setAddingAction(false));
+        }
     };
 
 export const removeManga =
     (url: string): ThunkAction<void, Store, undefined, Action> =>
-    (dispatch, getState) => {
+    async (dispatch, getState) => {
         const { manga } = getState().mangaPage;
 
         const newList = manga.filter(item => item.url !== url);
         dispatch(setMangaArrayAction(newList));
-        mangaStorage.saveStorage({ manga: newList });
+        await mangaStorage.saveStorage({ manga: newList });
     };
 
 export const readManga =
     (url: string): ThunkAction<void, Store, undefined, Action> =>
-    (dispatch, getState) => {
+    async (dispatch, getState) => {
         const { manga } = getState().mangaPage;
 
         const index = manga.findIndex(i => i.url === url);
-        if (index > -1) {
-            const { newList, newChaptersCount } = manga.reduce<{ newList: Manga[]; newChaptersCount: number }>(
-                (acc, manga, key) => {
-                    if (key === index) {
-                        acc.newList.push({ ...manga, prevChapter: manga.lastChapter });
-                    } else {
-                        acc.newList.push(manga);
-                        if (manga.prevChapter !== manga.lastChapter) {
-                            acc.newChaptersCount++;
-                        }
-                    }
-                    return acc;
-                },
-                { newList: [], newChaptersCount: 0 }
-            );
-            dispatch(setMangaArrayAction(newList));
-            setExtensionIconMode(newChaptersCount);
+        if (index === -1) return;
 
-            mangaStorage.saveStorage({ manga: newList }).then(() => {
-                chrome.tabs.create({ url, active: true });
-                showMangaNotification(manga[index]);
-            });
-        }
+        const { newList, newChaptersCount } = manga.reduce<{ newList: Manga[]; newChaptersCount: number }>(
+            (acc, manga, key) => {
+                if (key === index) {
+                    acc.newList.push({ ...manga, prevChapter: manga.lastChapter });
+                } else {
+                    acc.newList.push(manga);
+                    if (manga.prevChapter !== manga.lastChapter) {
+                        acc.newChaptersCount++;
+                    }
+                }
+                return acc;
+            },
+            { newList: [], newChaptersCount: 0 }
+        );
+        dispatch(setMangaArrayAction(newList));
+        setExtensionIconMode(newChaptersCount);
+
+        await mangaStorage.saveStorage({ manga: newList });
+        await showMangaNotification(manga[index]);
+        await chrome.tabs.create({ url, active: true });
     };
 
 export default slice.reducer;
