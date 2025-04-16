@@ -1,8 +1,19 @@
 module.exports = {
+    // Основные расширения и плагины
     extends: ['prettier', 'plugin:prettier/recommended'],
     parser: '@babel/eslint-parser',
     plugins: ['react', 'react-hooks', 'import', 'prettier', '@emotion'],
+    env: {
+        browser: true,
+        jest: true,
+    },
+    globals: {
+        __DEV__: false,
+    },
     settings: {
+        react: {
+            version: 'detect',
+        },
         'import/parsers': {
             '@typescript-eslint/parser': ['.ts', '.tsx'],
         },
@@ -47,14 +58,8 @@ module.exports = {
             'document.querySelector',
         ],
     },
-    env: {
-        browser: true,
-        jest: true,
-    },
-    globals: {
-        __DEV__: false,
-    },
     rules: {
+        // Правила для всех файлов
         'import/extensions': [
             'error',
             'ignorePackages',
@@ -66,7 +71,6 @@ module.exports = {
             },
         ],
         'prettier/prettier': ['error'],
-        indent: 'off',
         'no-alert': 'off',
         'no-console': 'off',
         'no-empty': 'off',
@@ -128,6 +132,9 @@ module.exports = {
         'import/prefer-default-export': 'off',
         'implicit-arrow-linebreak': 'off',
         'wrap-iife': ['error', 'any'],
+        camelcase: 'off',
+        '@emotion/pkg-renaming': 'error',
+        // React правила
         'react/no-danger': 'off',
         'react/require-default-props': 'off',
         'react/function-component-definition': 'off',
@@ -154,7 +161,8 @@ module.exports = {
         'react/destructuring-assignment': 'off',
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'warn',
-        'jsx-a11y/href-no-hash': [0],
+        // JSX Accessibility правила
+        'jsx-a11y/href-no-hash': 'off',
         'jsx-a11y/accessible-emoji': 'off',
         'jsx-a11y/alt-text': 'off',
         'jsx-a11y/anchor-has-content': 'off',
@@ -189,11 +197,10 @@ module.exports = {
         'jsx-a11y/scope': 'off',
         'jsx-a11y/tabindex-no-positive': 'off',
         'react/jsx-props-no-spreading': 'off',
-        camelcase: 'off',
-        '@emotion/pkg-renaming': 'error',
     },
     overrides: [
         {
+            // Настройки для TypeScript файлов
             files: ['assets/**/*.{ts,tsx}'],
             parser: '@typescript-eslint/parser',
             plugins: ['@typescript-eslint'],
@@ -221,6 +228,7 @@ module.exports = {
             },
         },
         {
+            // Исключения для тестовых файлов
             files: ['assets/**/*', '*.test.{js,ts,tsx}'],
             rules: {
                 'import/no-extraneous-dependencies': 'off',
