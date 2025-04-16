@@ -1,3 +1,4 @@
-node_modules
-src/vendor
-build
+.yarn/
+.pnp.cjs
+.pnp.loader.mjs
+build/
