@@ -10,7 +10,7 @@ const ExportButton: FC = () => {
     const onClick = useCallback(() => {
         const link = document.createElement('a');
         link.setAttribute('download', makeFileName());
-        link.href = `data:text/html;charset=utf-8,${btoa(JSON.stringify(prepareMangaToExport(manga)))}`;
+        link.href = `data:application/json;charset=utf-8,${btoa(JSON.stringify(prepareMangaToExport(manga)))}`;
         document.body.appendChild(link);
         link.click();
         link.remove();
