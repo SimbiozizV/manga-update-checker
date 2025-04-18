@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { NavLink } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { NavLink } from 'react-router';
 import { MenuItem as MenuItemType } from '../../types/Menu';
 
 const Link = styled(NavLink)`

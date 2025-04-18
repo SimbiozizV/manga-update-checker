@@ -13,6 +13,7 @@ export default (url: string): SourceType | null => {
         case 'readmanga.live':
         case '2.mintmanga.one':
         case 'selfmanga.live':
+        case '1.seimanga.me':
         case 'zz.readmanga.io':
         case 'web.usagi.one':
             return SourceType.ReadManga;

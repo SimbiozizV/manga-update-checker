@@ -14,7 +14,7 @@ import { ItemsList } from './ItemsList';
 const selector = createSelector([selectManga, selectFilter], (manga: Manga[], filter) => {
     return {
         mangaList: manga
-            .filter(item => item.title.toLowerCase().includes(filter))
+            .filter(item => item.title.toLowerCase().includes(filter.toLowerCase()))
             .sort((a, b) => a.title.localeCompare(b.title)),
         hasFilter: Boolean(filter.length),
     };
