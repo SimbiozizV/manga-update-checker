@@ -1,9 +1,9 @@
 import React from 'react';
-import { RouteObject } from 'react-router-dom';
-import UpdatePage from './components/UpdatePage';
-import { Route } from './enum';
+import { RouteObject } from 'react-router';
 import ListPage from './components/ListPage';
 import SearchPage from './components/SearchPage';
+import UpdatePage from './components/UpdatePage';
+import { Route } from './enum';
 
 const router: RouteObject[] = [
     {
