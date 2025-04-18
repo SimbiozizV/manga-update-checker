@@ -1,7 +1,7 @@
-import makeRequest from './makeRequest';
+import { SourceType } from '../enum';
 import { MangaLibSearchResponse } from '../types/search/MangaLib';
 import { SearchResultManga } from '../types/search/SearchResultManga';
-import { SourceType } from '../enum';
+import makeRequest from './makeRequest';
 
 export const searchMangaLibRequest = async (name: string): Promise<SearchResultManga[]> => {
     const url = new URL('https://mangalib.me/search');
@@ -20,7 +20,7 @@ export const searchMangaLibRequest = async (name: string): Promise<SearchResultM
             };
         });
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
 
     return [];

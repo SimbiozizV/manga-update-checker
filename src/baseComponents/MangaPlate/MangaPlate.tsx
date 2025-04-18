@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { Manga } from '../../types/Manga';
 import styled from '@emotion/styled';
+import { Manga } from '../../types/Manga';
 import ImageBlock from './ImageBlock';
 import PlateTitle from './PlateTitle';
 

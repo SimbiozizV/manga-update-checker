@@ -1,11 +1,13 @@
 import React, { FC } from 'react';
-import { Manga } from '../../types/Manga';
 import styled from '@emotion/styled';
 import { getIconBySource } from '../../helpers';
+import { getKeys } from '../../helpers/getKeys';
+import { Manga } from '../../types/Manga';
 
 const Wrap = styled.div`
     display: flex;
     gap: 0 5px;
+    align-items: flex-start;
     font-weight: 500;
     cursor: pointer;
 
@@ -26,7 +28,9 @@ const ProblemItem: FC<Props> = ({ manga, onClick }) => {
 
     return (
         <Wrap onClick={handleClick}>
-            <img src={getIconBySource(manga.source)} alt="icon" />
+            {getKeys(manga.mirrors).map(source => (
+                <img key={manga.mirrors[source]!.url} src={getIconBySource(source)} alt="icon" />
+            ))}
             <div>{manga.title}</div>
         </Wrap>
     );

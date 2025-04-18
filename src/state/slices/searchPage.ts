@@ -1,13 +1,13 @@
-import { Store } from '../../types/Store';
 import { Action, createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import { SearchResultManga } from '../../types/search/SearchResultManga';
-import { searchReadMangaRequest } from '../../api/readManga';
-import { searchMangaLibRequest } from '../../api/mangaLib';
-import { searchDesuRequest } from '../../api/desu';
-import { searchRemangaRequest } from '../../api/remanga';
-import { searchMangaOvh } from '../../api/mangaOvh';
 import { message } from 'antd';
+import { searchDesuRequest } from '../../api/desu';
+import { searchMangaLibRequest } from '../../api/mangaLib';
+import { searchMangaOvh } from '../../api/mangaOvh';
+import { searchReadMangaRequest } from '../../api/readManga';
+import { searchRemangaRequest } from '../../api/remanga';
 import { SEARCH_MANGA_TEXT } from '../../constants/text';
+import { SearchResultManga } from '../../types/search/SearchResultManga';
+import { Store } from '../../types/Store';
 
 const initialState: Store['searchPage'] = {
     manga: [],
@@ -55,7 +55,8 @@ export const searchMangaByName =
                 .sort((a, b) => a.name.localeCompare(b.name));
 
             if (searchResult.length) dispatch(setManga(searchResult));
-        } catch (error) {
+        } catch (e) {
+            console.error(e);
             message.error(SEARCH_MANGA_TEXT.error);
         } finally {
             dispatch(setWaiting(false));

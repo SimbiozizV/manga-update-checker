@@ -1,7 +1,7 @@
-import makeRequest from './makeRequest';
+import { SourceType } from '../enum';
 import { ReadMangaSearchResponse } from '../types/search/ReadManga';
 import { SearchResultManga } from '../types/search/SearchResultManga';
-import { SourceType } from '../enum';
+import makeRequest from './makeRequest';
 
 export const searchReadMangaRequest = async (name: string): Promise<SearchResultManga[]> => {
     const url = new URL('https://readmanga.live/search/suggestion');
@@ -19,8 +19,8 @@ export const searchReadMangaRequest = async (name: string): Promise<SearchResult
                 source: SourceType.ReadManga,
             };
         });
-    } catch (err) {
-        console.log(err);
+    } catch (e) {
+        console.error(e);
     }
     return [];
 };

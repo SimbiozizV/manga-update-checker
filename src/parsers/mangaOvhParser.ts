@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
-import { Parser } from '../types/Parser';
 import { ParsedData } from '../types/ParsedData';
+import { Parser } from '../types/Parser';
 
 const mangaOvhParser: Parser = html => {
     const $ = cheerio.load(html);
@@ -28,6 +28,7 @@ const mangaOvhParser: Parser = html => {
 
         return result;
     } catch (e) {
+        console.error(e);
         return null;
     }
 };

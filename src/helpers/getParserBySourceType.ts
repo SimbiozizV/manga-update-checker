@@ -1,11 +1,11 @@
 import { SourceType } from '../enum';
-import { AsyncParser, Parser } from '../types/Parser';
-import readMangaParser from '../parsers/readMangaParser';
-import mangaLibParser from '../parsers/mangaLibParser';
 import akParser from '../parsers/akParser';
 import desuParser from '../parsers/desuParser';
-import remangaParser from '../parsers/remangaParser';
+import mangaLibParser from '../parsers/mangaLibParser';
 import mangaOvhParser from '../parsers/mangaOvhParser';
+import readMangaParser from '../parsers/readMangaParser';
+import remangaParser from '../parsers/remangaParser';
+import { AsyncParser, Parser } from '../types/Parser';
 
 const parserMap: Record<SourceType, Parser | AsyncParser> = {
     [SourceType.ReadManga]: readMangaParser,

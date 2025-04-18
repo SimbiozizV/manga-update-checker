@@ -1,5 +1,5 @@
-import determinateSourceType from './determinateSourceType';
 import { SourceType } from '../enum';
+import determinateSourceType from './determinateSourceType';
 
 export default (url: string): string => {
     const type = determinateSourceType(url);

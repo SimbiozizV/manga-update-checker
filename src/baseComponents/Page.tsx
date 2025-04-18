@@ -1,7 +1,7 @@
 import React, { FC, PropsWithChildren } from 'react';
-import Menu from '../components/Menu';
 import styled from '@emotion/styled';
-import AddForm from '../components/AddForm';
+import Menu from '../components/Menu';
+import { Header } from './Header';
 
 const Wrap = styled.div`
     display: flex;
@@ -9,16 +9,10 @@ const Wrap = styled.div`
     gap: 15px 0;
 `;
 
-const Title = styled.div`
-    font-size: 24px;
-    font-weight: bold;
-`;
-
 const Page: FC<PropsWithChildren> = ({ children }) => {
     return (
         <Wrap>
-            <Title>Manga update checker</Title>
-            <AddForm />
+            <Header />
             <Menu />
             {children}
         </Wrap>

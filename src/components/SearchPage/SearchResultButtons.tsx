@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { Button, Space } from 'antd';
 import { PlusOutlined, LinkOutlined } from '@ant-design/icons';
+import { Button, Space } from 'antd';
 
 type Props = {
     onAdd: () => void;

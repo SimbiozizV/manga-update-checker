@@ -15,6 +15,8 @@ export const DEFAULT_ERROR = 'Что-то пошло не так';
 
 export const CONFIRM_DELETE_TEXT = 'Вы точно хотите удалить мангу?';
 
+export const CONFIRM_DELETE_MIRROR = 'Вы точно хотите удалить этот источник?';
+
 export const SEARCH_MANGA_TEXT = {
     error: 'Во время поиска возникла ошибка',
 };
@@ -33,10 +35,6 @@ export const UPDATE_MANGA_TEXT = {
             ? `${newChapterCount} ${getPluralForm(newChapterCount, 'обновление', 'обновления', 'обновлений')} манги`
             : 'Нет новых глав';
     },
-};
-
-export const WARNING_TEXT = {
-    update: 'При обновлении манги возникли проблемы. Попробуйте проверить обновления позже. Если проблема повторяется, то манга могла быть снята с публикации',
 };
 
 export const IMPORT_MANGA_TEXT = {

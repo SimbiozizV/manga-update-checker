@@ -1,6 +1,6 @@
-import { Manga } from '../types/Manga';
 import { ExportItem } from '../types/ExportItem';
+import { Manga } from '../types/Manga';
 
 export default (manga: Manga[]): ExportItem[] => {
-    return manga.map(({ url, prevChapter, source }) => ({ url, prevChapter, source }));
+    return manga.map(({ id, prevChapter, mirrors }) => ({ id, mirrors, prevChapter }));
 };

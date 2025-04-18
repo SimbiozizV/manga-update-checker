@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import router from '../router';
 import Container from '../baseComponents/Container';
+import router from '../router';
 
 const Root: FC = () => {
     return (

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import MenuItem from './MenuItem';
 import styled from '@emotion/styled';
+import MenuItem from './MenuItem';
 import menuMap from './menuMap';
 
 const Wrap = styled.div`

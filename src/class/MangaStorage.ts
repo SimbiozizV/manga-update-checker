@@ -1,4 +1,3 @@
-import { STORAGE_KEY } from '../constants';
 import { ChromeStorage } from '../types/ChromeStorage';
 import { Manga } from '../types/Manga';
 
@@ -11,8 +10,10 @@ class MangaStorage {
 
     public getStorage = async (): Promise<ChromeStorage> => {
         const initialStorage: ChromeStorage = { manga: [] };
-        const storageData = await chrome.storage.local.get(STORAGE_KEY);
-        return storageData[STORAGE_KEY] ? JSON.parse(storageData[STORAGE_KEY]) : initialStorage;
+        const storageData = await chrome.storage.local.get(this.storageKey);
+        if (!storageData[this.storageKey]) return initialStorage;
+
+        return JSON.parse(storageData[this.storageKey]);
     };
 
     public saveStorage = async (state: ChromeStorage) => {

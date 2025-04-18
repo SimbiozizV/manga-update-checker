@@ -1,52 +1,40 @@
-import React, { FC } from 'react';
-import Page from '../../baseComponents/Page';
-import { readManga, selectFilter, selectManga, removeManga } from '../../state/slices/mangaPage';
-import { Manga } from '../../types/Manga';
+import React, { FC, useMemo } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import MangaPlates from '../../baseComponents/MangaPlates';
-import Filter from './Filter';
+import { ListPlate } from '../../baseComponents/MangaPlate/ListPlate';
+import Page from '../../baseComponents/Page';
 import { EMPTY_TEXT } from '../../constants/text';
+import { useAppSelector } from '../../hooks';
+import { selectFilter, selectManga } from '../../state/slices/mangaPage';
+import { Manga } from '../../types/Manga';
 import Empty from '../Empty';
-import MangaListPlate from '../../baseComponents/MangaPlate/MangaListPlate';
 import FileOperations from './FileOperations';
+import Filter from './Filter';
+import { ItemsList } from './ItemsList';
 
 const selector = createSelector([selectManga, selectFilter], (manga: Manga[], filter) => {
     return {
-        mangaList: [...manga]
+        mangaList: manga
             .filter(item => item.title.toLowerCase().includes(filter))
-            .sort((a, b) => a.source.localeCompare(b.source)),
+            .sort((a, b) => a.title.localeCompare(b.title)),
         hasFilter: Boolean(filter.length),
     };
 });
 
 const ListPage: FC = () => {
-    const dispatch = useAppDispatch();
     const { mangaList, hasFilter } = useAppSelector(selector);
 
-    const handlePlateClick = (manga: Manga) => {
-        dispatch(readManga(manga.url));
-    };
-
-    const handleDeleteClick = (manga: Manga) => {
-        dispatch(removeManga(manga.url));
-    };
+    const items = useMemo(() => {
+        return mangaList.map(item => {
+            return <ListPlate key={item.id} manga={item} />;
+        });
+    }, [mangaList]);
 
     return (
         <Page>
             <Filter />
             <FileOperations />
             {mangaList.length > 0 ? (
-                <MangaPlates>
-                    {mangaList.map(manga => (
-                        <MangaListPlate
-                            key={manga.url}
-                            manga={manga}
-                            onClick={handlePlateClick}
-                            onDelete={handleDeleteClick}
-                        />
-                    ))}
-                </MangaPlates>
+                <ItemsList>{items}</ItemsList>
             ) : (
                 <Empty description={hasFilter ? EMPTY_TEXT.filter : EMPTY_TEXT.list} margin="30px 0 0 0" />
             )}

@@ -1,8 +1,8 @@
 import React, { FC, useCallback } from 'react';
-import { AppDispatch, useAppDispatch } from '../../hooks';
 import debounce from 'debounce';
-import { searchMangaByName } from '../../state/slices/searchPage';
 import SearchForm from '../../baseComponents/SearchForm';
+import { AppDispatch, useAppDispatch } from '../../hooks';
+import { searchMangaByName } from '../../state/slices/searchPage';
 
 const change = debounce((search: string, dispatch: AppDispatch) => {
     dispatch(searchMangaByName(search));

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { Empty as AntdEmpty } from 'antd';
 import styled from '@emotion/styled';
+import { Empty as AntdEmpty } from 'antd';
 
 const StyledEmpty = styled(AntdEmpty)<{ margin?: string }>`
     ${({ margin }) => margin && `margin: ${margin};`}

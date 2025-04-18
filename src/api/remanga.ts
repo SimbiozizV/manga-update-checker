@@ -1,7 +1,7 @@
+import { SourceType } from '../enum';
+import { RemangaChaptersResponse, RemangaSearchResponse } from '../types/search/Remanga';
 import { SearchResultManga } from '../types/search/SearchResultManga';
 import makeRequest from './makeRequest';
-import { RemangaChaptersResponse, RemangaSearchResponse } from '../types/search/Remanga';
-import { SourceType } from '../enum';
 
 export const searchRemangaRequest = async (name: string): Promise<SearchResultManga[]> => {
     const url = new URL('https://api.xn--80aaig9ahr.xn--c1avg/api/search/');
@@ -22,8 +22,8 @@ export const searchRemangaRequest = async (name: string): Promise<SearchResultMa
                 source: SourceType.Remanga,
             });
         });
-    } catch (err) {
-        console.error(err);
+    } catch (e) {
+        console.error(e);
     }
     return result;
 };

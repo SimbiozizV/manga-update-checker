@@ -1,8 +1,8 @@
-import logger from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';
-import reducer from './slices';
+import logger from 'redux-logger';
 import { Manga } from '../types/Manga';
 import { Store as StoreType } from '../types/Store';
+import reducer from './slices';
 
 export const initStore = (manga: Manga[]) => {
     const preloadedState: StoreType = {

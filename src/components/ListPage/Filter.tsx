@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
+import SearchForm from '../../baseComponents/SearchForm';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectFilter, setFilterAction } from '../../state/slices/mangaPage';
-import SearchForm from '../../baseComponents/SearchForm';
+
 const Filter: FC = () => {
     const dispatch = useAppDispatch();
     const filter = useAppSelector(selectFilter);

@@ -1,7 +1,7 @@
 import MangaStorage from './class/MangaStorage';
 import { STORAGE_KEY, BATCH_SIZE } from './constants';
-import { updateManga } from './state/slices/mangaPage';
 import { getNewChaptersCount, setExtensionIconMode } from './helpers';
+import { updateManga } from './state/slices/mangaPage';
 import { Manga } from './types/Manga';
 
 chrome.runtime.onInstalled.addListener(async () => {

@@ -1,7 +1,7 @@
+import { SourceType } from '../enum';
+import { MangaOvhSearchResponse } from '../types/search/MangaOvh';
 import { SearchResultManga } from '../types/search/SearchResultManga';
 import makeRequest from './makeRequest';
-import { MangaOvhSearchResponse } from '../types/search/MangaOvh';
-import { SourceType } from '../enum';
 
 export const searchMangaOvh = async (name: string): Promise<SearchResultManga[]> => {
     const url = new URL('https://api.manga.ovh/search/book');
@@ -20,8 +20,8 @@ export const searchMangaOvh = async (name: string): Promise<SearchResultManga[]>
                 source: SourceType.MangaOvh,
             };
         });
-    } catch (err) {
-        console.log(err);
+    } catch (e) {
+        console.error(e);
     }
     return [];
 };

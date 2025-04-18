@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { Button, Form, Input } from 'antd';
-import styled from '@emotion/styled';
-import { addManga, selectIsAdding } from '../state/slices/mangaPage';
-import { useAppDispatch, useAppSelector } from '../hooks';
 import { PlusOutlined } from '@ant-design/icons';
+import styled from '@emotion/styled';
+import { Button, Form, Input } from 'antd';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { addManga, selectIsAdding } from '../state/slices/mangaPage';
 
 const StyledForm = styled(Form)`
     width: 100%;

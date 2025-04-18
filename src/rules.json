@@ -12,5 +12,16 @@
       ]
     },
     "condition": { "urlFilter": "api.xn--80aaig9ahr.xn--c1avg", "resourceTypes": ["xmlhttprequest"] }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        { "header": "referer", "operation": "set", "value": "https://mangalib.me/" }
+      ]
+    },
+    "condition": { "urlFilter": "cover.imglib.info", "resourceTypes": ["image"] }
   }
 ]

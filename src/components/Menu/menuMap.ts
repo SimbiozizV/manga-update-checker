@@ -1,5 +1,5 @@
-import { Menu } from '../../types/Menu';
 import { Route } from '../../enum';
+import { Menu } from '../../types/Menu';
 
 const menuMap: Menu = [
     { text: 'Новые главы', url: Route.Root },

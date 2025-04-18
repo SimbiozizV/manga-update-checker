@@ -1,14 +1,13 @@
-import makeRequest from './makeRequest';
-import { DesuSearchResponse } from '../types/search/Desu';
-import { SearchResultManga } from '../types/search/SearchResultManga';
 import { SourceType } from '../enum';
+import { SearchResultManga } from '../types/search/SearchResultManga';
+import makeRequest from './makeRequest';
 
 export const searchDesuRequest = async (name: string): Promise<SearchResultManga[]> => {
     const url = new URL('https://desu.me/manga/search/');
     url.searchParams.append('q', name);
 
     try {
-        const html = await makeRequest<DesuSearchResponse>(url.toString(), { stringType: true });
+        const html = await makeRequest<string>(url.toString(), { stringType: true });
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
         const items = doc.querySelectorAll('.blockLinksList a');

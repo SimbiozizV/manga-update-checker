@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import { SearchResultManga } from '../../types/search/SearchResultManga';
-import SearchResultImage from './SearchResultImage';
 import { Space } from 'antd';
-import SearchResultButtons from './SearchResultButtons';
-import { addManga } from '../../state/slices/mangaPage';
 import { useAppDispatch } from '../../hooks';
+import { addManga } from '../../state/slices/mangaPage';
+import { SearchResultManga } from '../../types/search/SearchResultManga';
+import SearchResultButtons from './SearchResultButtons';
+import SearchResultImage from './SearchResultImage';
 
 const Title = styled.div`
     font-size: 16px;

@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { Spin } from 'antd';
 import { useAppSelector } from '../../hooks';
-import SearchResultItem from './SearchResultItem';
 import { selectSearchPage } from '../../state/slices/searchPage';
+import SearchResultItem from './SearchResultItem';
 
 const ResultWrap = styled.div`
     display: flex;

@@ -1,5 +1,4 @@
 import * as cheerio from 'cheerio';
-import { ParsedData } from '../types/ParsedData';
 import { getRemangaChaptersRequest } from '../api/remanga';
 import { AsyncParser } from '../types/Parser';
 
@@ -14,6 +13,7 @@ const remangaParser: AsyncParser = async html => {
 
         return lastChapter ? { title: pageInfo.rus_name as string, image, lastChapter } : null;
     } catch (e) {
+        console.error(e);
         return null;
     }
 };

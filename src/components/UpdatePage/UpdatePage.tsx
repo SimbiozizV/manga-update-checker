@@ -1,25 +1,20 @@
 import React, { FC } from 'react';
+import { createSelector } from '@reduxjs/toolkit';
+import MangaPlate from '../../baseComponents/MangaPlate/MangaPlate';
 import MangaPlates from '../../baseComponents/MangaPlates';
 import Page from '../../baseComponents/Page';
+import { MangaStatus } from '../../enum';
+import { getMaxChapter } from '../../helpers/getMaxChapter';
+import { getMaxChapterMirror } from '../../helpers/getMaxChapterMirror';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { readManga, selectManga } from '../../state/slices/mangaPage';
 import { Manga } from '../../types/Manga';
-import { MangaStatus } from '../../enum';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { createSelector } from '@reduxjs/toolkit';
-import UpdateButton from './UpdateButton';
 import ProblemBlock from './ProblemBlock';
-import MangaPlate from '../../baseComponents/MangaPlate/MangaPlate';
 import ProblemItem from './ProblemItem';
 
 const selector = createSelector([selectManga], (manga: Manga[]) => {
-    const updated = manga
-        .filter(item => item.prevChapter !== item.lastChapter)
-        .sort((a, b) => {
-            if (a.source > b.source) return -1;
-            if (a.source < b.source) return 1;
-            return 0;
-        });
-    const problems = manga.filter(item => item.status === MangaStatus.Error);
+    const updated = manga.filter(item => item.prevChapter !== getMaxChapter(item.mirrors));
+    const problems = manga.filter(item => Object.values(item.mirrors).some(i => i.status === MangaStatus.Error));
 
     return {
         updated,
@@ -34,11 +29,11 @@ const UpdatePage: FC = () => {
     const { updated, problems, showUpdated, showProblems } = useAppSelector(selector);
 
     const handlePlateClick = (manga: Manga) => {
-        dispatch(readManga(manga.url));
+        dispatch(readManga(manga.id));
     };
 
     const handleProblemClick = (manga: Manga) => {
-        window.open(manga.url);
+        window.open(getMaxChapterMirror(manga.mirrors).mirror.url);
     };
 
     return (
@@ -46,18 +41,17 @@ const UpdatePage: FC = () => {
             {showUpdated && (
                 <MangaPlates>
                     {updated.map(manga => (
-                        <MangaPlate key={manga.url} manga={manga} onClick={handlePlateClick} />
+                        <MangaPlate key={manga.id} manga={manga} onClick={handlePlateClick} />
                     ))}
                 </MangaPlates>
             )}
             {showProblems && (
                 <ProblemBlock>
                     {problems.map(manga => (
-                        <ProblemItem key={manga.url} manga={manga} onClick={handleProblemClick} />
+                        <ProblemItem key={manga.id} manga={manga} onClick={handleProblemClick} />
                     ))}
                 </ProblemBlock>
             )}
-            <UpdateButton />
         </Page>
     );
 };

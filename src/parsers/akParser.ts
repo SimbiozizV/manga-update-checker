@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+
 import { Parser } from '../types/Parser';
 
 const akParser: Parser = html => {
@@ -15,6 +16,7 @@ const akParser: Parser = html => {
             lastChapter,
         };
     } catch (e) {
+        console.error(e);
         return null;
     }
 };

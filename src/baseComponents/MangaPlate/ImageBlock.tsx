@@ -1,38 +1,21 @@
 import React, { FC } from 'react';
-import { getIconBySource } from '../../helpers';
 import styled from '@emotion/styled';
+import { getMaxChapterMirror } from '../../helpers/getMaxChapterMirror';
 import { Manga } from '../../types/Manga';
+import { MainImage } from '../PlateImage/MainImage';
+import { SourceImage } from '../PlateImage/SourceImage';
+import { UpgradeNotification } from '../PlateImage/UpgradeNotification';
+
+const Source = styled(SourceImage)``;
 
 const ImageWrap = styled.div`
     position: relative;
-`;
 
-const MainImage = styled.img`
-    height: 145px;
-    width: 145px;
-    object-fit: cover;
-    object-position: center;
-`;
-
-const SourceImage = styled.img`
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    border: 2px solid #fff;
-    border-radius: 2px;
-    background: #fff;
-`;
-
-const UpgradeNotification = styled.div`
-    position: absolute;
-    left: 5px;
-    bottom: 10px;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 2px 5px;
-    border-radius: 4px;
-    color: white;
-    background: #52c41a;
+    ${Source} {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+    }
 `;
 
 type Props = {
@@ -40,18 +23,14 @@ type Props = {
     onClick?: () => void;
 };
 
-const ImageBlock: FC<Props> = ({ manga: { image, title, source, prevChapter, lastChapter }, onClick }) => {
-    const showUpgradeNotification = prevChapter !== lastChapter;
-
+const ImageBlock: FC<Props> = ({ manga: { image, title, prevChapter, mirrors }, onClick }) => {
     return (
         <ImageWrap onClick={onClick}>
-            <SourceImage src={getIconBySource(source)} alt="icon" />
             <MainImage src={image} alt={title} />
-            {showUpgradeNotification && (
-                <UpgradeNotification>
-                    {prevChapter} &gt; {lastChapter}
-                </UpgradeNotification>
-            )}
+            <UpgradeNotification
+                prevChapter={prevChapter}
+                lastChapter={getMaxChapterMirror(mirrors).mirror.lastChapter}
+            />
         </ImageWrap>
     );
 };

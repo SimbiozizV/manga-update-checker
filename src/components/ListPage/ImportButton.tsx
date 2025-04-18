@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, createRef, useCallback } from 'react';
-import { Button } from 'antd';
 import { ImportOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { importFile, selectIsImported } from '../../state/slices/mangaPage';
 
