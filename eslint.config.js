@@ -5,7 +5,6 @@ const eslintPluginJsxA11y = require('eslint-plugin-jsx-a11y');
 const eslintPluginPrettier = require('eslint-plugin-prettier');
 const eslintPluginReact = require('eslint-plugin-react');
 const eslintPluginReactHooks = require('eslint-plugin-react-hooks');
-const sonarjs = require('eslint-plugin-sonarjs');
 
 module.exports = [
     {
@@ -30,7 +29,6 @@ module.exports = [
             prettier: eslintPluginPrettier,
             '@emotion': eslintPluginEmotion,
             'jsx-a11y': eslintPluginJsxA11y,
-            sonarjs,
         },
         settings: {
             react: {
@@ -47,7 +45,6 @@ module.exports = [
             },
         },
         rules: {
-            ...sonarjs.configs.recommended.rules,
             'import/extensions': [
                 'error',
                 'ignorePackages',
