@@ -12,7 +12,7 @@ export default (url: string): string => {
     }
 
     if (type === SourceType.MangaLib) {
-        return `${urlObj.origin}/${splitPath[0]}?section=chapters`;
+        return urlObj.origin + urlObj.pathname;
     }
 
     if (type === SourceType.Desu || type === SourceType.MangaOvh) {

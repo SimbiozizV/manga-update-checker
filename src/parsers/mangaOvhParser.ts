@@ -1,8 +1,10 @@
 import * as cheerio from 'cheerio';
+import makeRequest from '../api/makeRequest';
 import { ParsedData } from '../types/ParsedData';
-import { Parser } from '../types/Parser';
+import { AsyncParser } from '../types/Parser';
 
-const mangaOvhParser: Parser = html => {
+const mangaOvhParser: AsyncParser = async (url: string) => {
+    const html = await makeRequest<string>(url, { stringType: true });
     const $ = cheerio.load(html);
 
     try {

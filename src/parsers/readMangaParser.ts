@@ -1,8 +1,11 @@
 import * as cheerio from 'cheerio';
-import { Parser } from '../types/Parser';
+import makeRequest from '../api/makeRequest';
+import { AsyncParser } from '../types/Parser';
 
-const readMangaParser: Parser = html => {
+const readMangaParser: AsyncParser = async (url: string) => {
+    const html = await makeRequest<string>(url, { stringType: true });
     const $ = cheerio.load(html);
+
     const lastChapterButton = $('.read-last-chapter');
 
     if (lastChapterButton) {

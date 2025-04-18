@@ -1,8 +1,10 @@
 import * as cheerio from 'cheerio';
+import makeRequest from '../api/makeRequest';
 import { getRemangaChaptersRequest } from '../api/remanga';
 import { AsyncParser } from '../types/Parser';
 
-const remangaParser: AsyncParser = async html => {
+const remangaParser: AsyncParser = async (url: string) => {
+    const html = await makeRequest<string>(url, { stringType: true });
     const $ = cheerio.load(html);
 
     try {

@@ -1,11 +1,10 @@
 import { SourceType } from '../enum';
 import { getParserBySourceType } from '../helpers';
-import makeRequest from './makeRequest';
 
 export default async ({ url, source }: { url: string; source: SourceType }) => {
     try {
-        const html = await makeRequest<string>(url, { stringType: true });
-        const data = await getParserBySourceType(source)(html);
+        const parser = getParserBySourceType(source);
+        const data = await parser(url);
         return { url, source, data };
     } catch (e) {
         console.error(e);

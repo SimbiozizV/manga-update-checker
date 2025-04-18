@@ -1,7 +1,9 @@
 import * as cheerio from 'cheerio';
-import { Parser } from '../types/Parser';
+import makeRequest from '../api/makeRequest';
+import { AsyncParser } from '../types/Parser';
 
-const desuParser: Parser = (html: string) => {
+const desuParser: AsyncParser = async (url: string) => {
+    const html = await makeRequest<string>(url, { stringType: true });
     const $ = cheerio.load(html);
 
     try {
@@ -15,6 +17,7 @@ const desuParser: Parser = (html: string) => {
             lastChapter,
         };
     } catch (e) {
+        console.error(e);
         return null;
     }
 };

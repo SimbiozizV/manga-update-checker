@@ -1,8 +1,9 @@
 import * as cheerio from 'cheerio';
+import makeRequest from '../api/makeRequest';
+import { AsyncParser } from '../types/Parser';
 
-import { Parser } from '../types/Parser';
-
-const akParser: Parser = html => {
+const akParser: AsyncParser = async (url: string) => {
+    const html = await makeRequest<string>(url, { stringType: true });
     const $ = cheerio.load(html);
 
     try {

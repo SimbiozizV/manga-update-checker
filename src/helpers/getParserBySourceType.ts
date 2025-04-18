@@ -1,7 +1,7 @@
 import { SourceType } from '../enum';
 import akParser from '../parsers/akParser';
 import desuParser from '../parsers/desuParser';
-import mangaLibParser from '../parsers/mangaLibParser';
+import { mangaLibParser } from '../parsers/mangaLibParser';
 import mangaOvhParser from '../parsers/mangaOvhParser';
 import readMangaParser from '../parsers/readMangaParser';
 import remangaParser from '../parsers/remangaParser';

@@ -192,7 +192,7 @@ export const mirrorUrlChange =
 
 export const updateManga = async (manga: Manga): Promise<Manga> => {
     const keys = getKeys(manga.mirrors);
-    if (!manga.title) debugger;
+
     const mirrors = await Promise.allSettled(
         keys.map(source => getDataByUrl({ url: manga.mirrors[source]!.url, source }))
     );
