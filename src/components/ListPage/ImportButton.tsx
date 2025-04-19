@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, createRef, useCallback } from 'react';
-import { ImportOutlined } from '@ant-design/icons';
+import ImportOutlined from '@ant-design/icons/ImportOutlined';
 import { Button } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { importFile, selectIsImported } from '../../state/slices/mangaPage';

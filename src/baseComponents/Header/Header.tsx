@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
-import { UpCircleOutlined, PlusCircleOutlined, ReloadOutlined } from '@ant-design/icons';
+import PlusCircleOutlined from '@ant-design/icons/PlusCircleOutlined';
+import ReloadOutlined from '@ant-design/icons/ReloadOutlined';
+import UpCircleOutlined from '@ant-design/icons/UpCircleOutlined';
 import styled from '@emotion/styled';
 import { Button, Tooltip } from 'antd';
 import AddForm from '../../components/AddForm';

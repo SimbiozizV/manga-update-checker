@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
+import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import styled from '@emotion/styled';
 import { Button, Form, Input } from 'antd';
 import { useAppDispatch, useAppSelector } from '../hooks';

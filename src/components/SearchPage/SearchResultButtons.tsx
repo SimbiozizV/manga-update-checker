@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { PlusOutlined, LinkOutlined } from '@ant-design/icons';
+import LinkOutlined from '@ant-design/icons/LinkOutlined';
+import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { Button, Space } from 'antd';
 
 type Props = {

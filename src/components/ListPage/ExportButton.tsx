@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import { ExportOutlined } from '@ant-design/icons';
+import ExportOutlined from '@ant-design/icons/ExportOutlined';
 import { Button } from 'antd';
 import { prepareMangaToExport, makeFileName } from '../../helpers';
 import { useAppSelector } from '../../hooks';

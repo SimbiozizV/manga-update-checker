@@ -1,5 +1,6 @@
-const babelParser = require('@babel/eslint-parser');
 const eslintPluginEmotion = require('@emotion/eslint-plugin');
+const typescriptEslintPlugin = require('@typescript-eslint/eslint-plugin');
+const typescriptEslintParser = require('@typescript-eslint/parser');
 const eslintPluginImport = require('eslint-plugin-import');
 const eslintPluginJsxA11y = require('eslint-plugin-jsx-a11y');
 const eslintPluginPrettier = require('eslint-plugin-prettier');
@@ -10,19 +11,20 @@ module.exports = [
     {
         files: ['**/*.{js,jsx,ts,tsx}'],
         languageOptions: {
-            parser: babelParser,
+            parser: typescriptEslintParser,
             parserOptions: {
-                requireConfigFile: false,
-                babelOptions: {
-                    presets: ['@babel/preset-react'],
+                sourceType: 'module',
+                ecmaFeatures: {
+                    jsx: true,
                 },
+                project: './tsconfig.json',
             },
-            sourceType: 'module',
             globals: {
                 __DEV__: 'readonly',
             },
         },
         plugins: {
+            '@typescript-eslint': typescriptEslintPlugin,
             import: eslintPluginImport,
             react: eslintPluginReact,
             'react-hooks': eslintPluginReactHooks,
@@ -38,9 +40,8 @@ module.exports = [
                 '@typescript-eslint/parser': ['.ts', '.tsx'],
             },
             'import/resolver': {
-                'babel-module': {
-                    cwd: __dirname,
-                    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+                typescript: {
+                    alwaysTryTypes: true,
                 },
             },
         },

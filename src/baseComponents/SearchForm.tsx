@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { SearchOutlined } from '@ant-design/icons';
+import SearchOutlined from '@ant-design/icons/SearchOutlined';
 import { Input } from 'antd';
 
 type Props = {

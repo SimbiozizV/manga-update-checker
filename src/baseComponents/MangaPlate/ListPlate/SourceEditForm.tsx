@@ -1,5 +1,7 @@
 import React, { ChangeEvent, FC } from 'react';
-import { CheckOutlined, CloseOutlined, ExportOutlined } from '@ant-design/icons';
+import CheckOutlined from '@ant-design/icons/CheckOutlined';
+import CloseOutlined from '@ant-design/icons/CloseOutlined';
+import ExportOutlined from '@ant-design/icons/ExportOutlined';
 import { Input, Flex, Button, Typography } from 'antd';
 import { CONFIRM_DELETE_MIRROR } from '../../../constants/text';
 import { SourceType } from '../../../enum';

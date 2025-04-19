@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { DeleteOutlined } from '@ant-design/icons';
+import DeleteOutlined from '@ant-design/icons/DeleteOutlined';
 import { Button, Tooltip, Popconfirm } from 'antd';
 import { CONFIRM_DELETE_TEXT } from '../../../constants/text';
 

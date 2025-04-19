@@ -1,5 +1,5 @@
 import React, { FC, PropsWithChildren } from 'react';
-import { WarningOutlined } from '@ant-design/icons';
+import WarningOutlined from '@ant-design/icons/WarningOutlined';
 import styled from '@emotion/styled';
 
 const Title = styled.div`

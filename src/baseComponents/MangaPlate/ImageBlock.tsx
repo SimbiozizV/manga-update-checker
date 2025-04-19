@@ -8,7 +8,7 @@ import { UpgradeNotification } from '../PlateImage/UpgradeNotification';
 const ImageWrap = styled.div`
     position: relative;
 
-    img[alt="icon"] {
+    img[alt='icon'] {
         position: absolute;
         top: 5px;
         left: 5px;
