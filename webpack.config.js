@@ -1,10 +1,9 @@
 const path = require('path');
-const webpack = require('webpack');
-const baseManifest = require('./src/manifest.json');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const WebpackExtensionManifestPlugin = require('webpack-extension-manifest-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const baseManifest = require('./src/manifest.json');
 
 const getModeInfo = mode =>
     mode && mode === 'development' ? { isDevelop: true, mode } : { isDevelop: false, mode: 'production' };
@@ -22,6 +21,7 @@ module.exports = (_, argv) => {
         output: {
             path: path.resolve(__dirname, 'build'),
             filename: '[name].js',
+            clean: true,
         },
         module: {
             rules: [
@@ -41,7 +41,7 @@ module.exports = (_, argv) => {
                 config: [__filename],
             },
         },
-        devtool: isDevelop ? 'inline-source-map' : false,
+        devtool: isDevelop ? 'source-map' : false,
         resolve: {
             extensions: ['.js', '.ts', '.tsx'],
         },
@@ -49,7 +49,6 @@ module.exports = (_, argv) => {
             new webpack.DefinePlugin({
                 __DEV__: isDevelop,
             }),
-            new CleanWebpackPlugin(),
             new CopyPlugin({
                 patterns: [
                     {
