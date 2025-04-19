@@ -26,10 +26,16 @@ module.exports = (_, argv) => {
         module: {
             rules: [
                 {
-                    test: /\.((js|ts)x?)$/,
-                    exclude: /(node_modules)/,
+                    test: /\.tsx?$/,
                     use: {
-                        loader: 'babel-loader',
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: true,
+                            compilerOptions: {
+                                module: 'esnext',
+                                jsx: 'react-jsx',
+                            },
+                        },
                     },
                 },
                 { test: /\.(jpg|png)$/, type: 'asset/resource' },

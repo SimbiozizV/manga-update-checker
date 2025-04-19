@@ -3,15 +3,12 @@ import styled from '@emotion/styled';
 import { getMaxChapterMirror } from '../../helpers/getMaxChapterMirror';
 import { Manga } from '../../types/Manga';
 import { MainImage } from '../PlateImage/MainImage';
-import { SourceImage } from '../PlateImage/SourceImage';
 import { UpgradeNotification } from '../PlateImage/UpgradeNotification';
-
-const Source = styled(SourceImage)``;
 
 const ImageWrap = styled.div`
     position: relative;
 
-    ${Source} {
+    img[alt="icon"] {
         position: absolute;
         top: 5px;
         left: 5px;
