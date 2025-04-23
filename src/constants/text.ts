@@ -1,4 +1,4 @@
-import { getPluralForm } from '../helpers';
+import getPluralForm from '../helpers/getPluralForm';
 
 export const NOTIFICATION = {
     title: 'Подсказка по главе',

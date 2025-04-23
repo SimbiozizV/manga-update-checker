@@ -1,6 +1,6 @@
 import { NOTIFICATION } from '../constants/text';
 import { SourceType } from '../enum';
-import { getIconBySource } from './index';
+import getIconBySource from './getIconBySource';
 
 export default ({ source, prevChapter }: { source: SourceType; prevChapter: string }) =>
     chrome.runtime.sendMessage('', {
