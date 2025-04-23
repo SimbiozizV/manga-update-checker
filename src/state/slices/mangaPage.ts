@@ -228,23 +228,30 @@ export const checkMangaUpdate = (): AsyncAction => async (dispatch, getState) =>
     dispatch(setUpdatingAction(true));
     try {
         let hasProblem = false;
-        let newChapterCount = 0;
         let index = 0;
         let result: Manga[] = [];
+        let totalNewChapterCount = 0;
 
         while (index < manga.length) {
             const batch = manga.slice(index, index + BATCH_SIZE);
             const response = await Promise.all(batch.map(updateManga));
-            const batchManga = response.reduce<Manga[]>((acc, updatedManga, key) => {
-                if (hasNewChapters(batch[key].mirrors, updatedManga.mirrors)) newChapterCount++;
-                acc.push({
-                    ...batch[key],
-                    image: updatedManga.image,
-                    mirrors: updatedManga.mirrors,
-                });
-                return acc;
-            }, []);
-            result = [...result, ...batchManga];
+            const batchResult = response.reduce<{ manga: Manga[]; newChaptersCount: number }>(
+                (acc, updatedManga, key) => {
+                    if (hasNewChapters(batch[key].mirrors, updatedManga.mirrors)) {
+                        acc.newChaptersCount += 1;
+                    }
+                    acc.manga.push({
+                        ...batch[key],
+                        image: updatedManga.image,
+                        mirrors: updatedManga.mirrors,
+                    });
+                    return acc;
+                },
+                { manga: [], newChaptersCount: 0 }
+            );
+
+            result = [...result, ...batchResult.manga];
+            totalNewChapterCount += batchResult.newChaptersCount;
             index += BATCH_SIZE;
         }
 
@@ -254,9 +261,9 @@ export const checkMangaUpdate = (): AsyncAction => async (dispatch, getState) =>
         if (hasProblem) {
             message.warning(UPDATE_MANGA_TEXT.error);
         } else {
-            message.success(UPDATE_MANGA_TEXT.success(newChapterCount));
+            message.success(UPDATE_MANGA_TEXT.success(totalNewChapterCount));
         }
-        await setExtensionIconMode(newChapterCount);
+        await setExtensionIconMode(totalNewChapterCount);
     } catch (e) {
         console.error(e);
         message.warning(UPDATE_MANGA_TEXT.error);
