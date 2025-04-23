@@ -3,32 +3,25 @@ import makeRequest from '../api/makeRequest';
 import { ParsedData } from '../types/ParsedData';
 import { AsyncParser } from '../types/Parser';
 
-const mangaOvhParser: AsyncParser = async (url: string) => {
+const mangaOvhParser: AsyncParser = async (url: string): Promise<ParsedData | null> => {
     const html = await makeRequest<string>(url, { stringType: true });
     const $ = cheerio.load(html);
 
     try {
-        let result: ParsedData | null = null;
-        const scripts = $('script');
-        const sourceScript = Array.from(scripts.contents()).find(el => {
-            return $(el).text().includes('remixContext');
-        });
+        const poster = $('main').find('img');
+        if (!poster) throw new Error('No poster');
 
-        if (!sourceScript) return null;
+        const image = poster.attr('src');
+        const title = poster.attr('alt');
+        const lastChapter = $('div.rounded-full').text();
 
-        const parserData = JSON.parse($(sourceScript).text().replace('window.__remixContext = ', '').replace(/;/g, ''));
-        const data = parserData.state.loaderData['routes/reader/book/$slug/index'];
-        const image = $('meta[property="og:image"]').attr('content')!;
+        if (!image || !title || !lastChapter) throw new Error('No data');
 
-        result = {
-            title: data.book.name.ru,
+        return {
+            title,
             image,
-            lastChapter: data.chapters.reduce((acc: number, item: { number: number }) => {
-                return Math.max(acc, item.number);
-            }, 0),
+            lastChapter,
         };
-
-        return result;
     } catch (e) {
         console.error(e);
         return null;
