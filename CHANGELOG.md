@@ -1,6 +1,27 @@
 ## v3.0.3
 - Удалил babel с проекта
 
+## [3.1.0](https://github.com/SimbiozizV/manga-update-checker/compare/v3.0.3...v3.1.0) (2025-04-24)
+
+
+### Features
+
+* **Parser:** добавил зеркало для mangalib ([1e2ad55](https://github.com/SimbiozizV/manga-update-checker/commit/1e2ad551ea3b1d2c8b606c41ef9c0011c1f5061f))
+
+
+### Bug Fixes
+
+* **Mirror:** закрывать форму редактирования после успешного сохранения ([550d6cc](https://github.com/SimbiozizV/manga-update-checker/commit/550d6ccf6eafcd5e7f6efac55938130d20c94b16))
+* **Parser:** поправил парсер mangaOvh ([510c9f7](https://github.com/SimbiozizV/manga-update-checker/commit/510c9f736114226bdaf558c6d0b39999c5dc7102))
+* **workflow:** поправил создание автопиара ([1e27cba](https://github.com/SimbiozizV/manga-update-checker/commit/1e27cba81c7f977005ab8f65205abc8bc38f0c2f))
+
+
+### Miscellaneous
+
+* **Eslint:** поправил варнинг ([b83bb42](https://github.com/SimbiozizV/manga-update-checker/commit/b83bb4244e5f8259f9a5417623f208d2996e4c68))
+* **workflow:** добавил lint для PR ([f299849](https://github.com/SimbiozizV/manga-update-checker/commit/f299849ca39e25dab7dce91ae44959e096e66b44))
+* **workflow:** добавил создание автопиара ([cf6de89](https://github.com/SimbiozizV/manga-update-checker/commit/cf6de89709a704bcb7604f6797c1f7c8ee606c60))
+
 ## v3.0.2
 - Обновил роутер
 - Поправил парсер mangaLib
