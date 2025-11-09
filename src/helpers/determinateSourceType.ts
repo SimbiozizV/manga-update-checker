@@ -23,6 +23,8 @@ export default (url: string): SourceType | null => {
             return SourceType.Remanga;
         case 'manga.ovh':
             return SourceType.MangaOvh;
+        case 'inkstory.me':
+            return SourceType.Inkstory;
         default:
             return null;
     }
