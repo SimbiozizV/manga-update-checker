@@ -1,6 +1,7 @@
 import { SourceType } from '../enum';
 import akParser from '../parsers/akParser';
 import desuParser from '../parsers/desuParser';
+import inkstoryParser from '../parsers/inkstoryParser';
 import { mangaLibParser } from '../parsers/mangaLibParser';
 import mangaOvhParser from '../parsers/mangaOvhParser';
 import readMangaParser from '../parsers/readMangaParser';
@@ -14,6 +15,7 @@ const parserMap: Record<SourceType, Parser | AsyncParser> = {
     [SourceType.Desu]: desuParser,
     [SourceType.Remanga]: remangaParser,
     [SourceType.MangaOvh]: mangaOvhParser,
+    [SourceType.Inkstory]: inkstoryParser,
 };
 
 export default (source: SourceType): Parser | AsyncParser => {
