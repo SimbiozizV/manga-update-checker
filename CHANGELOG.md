@@ -1,6 +1,13 @@
 ## v3.0.3
 - Удалил babel с проекта
 
+## [3.1.1](https://github.com/SimbiozizV/manga-update-checker/compare/v3.1.0...v3.1.1) (2025-11-09)
+
+
+### Miscellaneous
+
+* **UI:** updated dependencies ([1006242](https://github.com/SimbiozizV/manga-update-checker/commit/100624262b3e415d5135dc65f31d4543fd2559a7))
+
 ## [3.1.0](https://github.com/SimbiozizV/manga-update-checker/compare/v3.0.3...v3.1.0) (2025-04-24)
 
 
