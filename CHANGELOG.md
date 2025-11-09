@@ -1,6 +1,13 @@
 ## v3.0.3
 - Удалил babel с проекта
 
+## [3.2.0](https://github.com/SimbiozizV/manga-update-checker/compare/v3.1.1...v3.2.0) (2025-11-09)
+
+
+### Features
+
+* **parser:** inkstory parser ([51c2bb5](https://github.com/SimbiozizV/manga-update-checker/commit/51c2bb5c0b0befd3312478443f9fc61bf314ae4b))
+
 ## [3.1.1](https://github.com/SimbiozizV/manga-update-checker/compare/v3.1.0...v3.1.1) (2025-11-09)
 
 
