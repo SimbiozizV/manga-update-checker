@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import MangaPlate from '../../baseComponents/MangaPlate/MangaPlate';
 import MangaPlates from '../../baseComponents/MangaPlates';
-import Page from '../../baseComponents/Page';
 import { MangaStatus } from '../../enum';
 import { getMaxChapter } from '../../helpers/getMaxChapter';
 import { getMaxChapterMirror } from '../../helpers/getMaxChapterMirror';
@@ -37,7 +36,7 @@ const UpdatePage: FC = () => {
     };
 
     return (
-        <Page>
+        <>
             {showUpdated && (
                 <MangaPlates>
                     {updated.map(manga => (
@@ -52,7 +51,7 @@ const UpdatePage: FC = () => {
                     ))}
                 </ProblemBlock>
             )}
-        </Page>
+        </>
     );
 };
 
