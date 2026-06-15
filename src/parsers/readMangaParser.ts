@@ -11,7 +11,7 @@ const readMangaParser: AsyncParser = async (url: string) => {
     if (lastChapterButton) {
         const lastUrl = lastChapterButton.attr('href')!;
         const lastChapter = lastUrl.split('/').pop()!;
-        const image = $('.picture-fotorama img')[0].attribs.src;
+        const image = $('.main-carousel__swiper img')?.[0]?.attribs.src;
         const title = $('meta[itemprop="name"]').attr('content')!;
 
         return {
