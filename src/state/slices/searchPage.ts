@@ -49,7 +49,7 @@ export const searchMangaByName =
                 searchMangaOvh(name),
             ]);
 
-            let searchResult: SearchResultManga[] = response
+            const searchResult: SearchResultManga[] = response
                 .flatMap(result => (result.status === 'fulfilled' ? result.value : []))
                 .filter(item => item.name && item.thumbnail && item.href)
                 .sort((a, b) => a.name.localeCompare(b.name));

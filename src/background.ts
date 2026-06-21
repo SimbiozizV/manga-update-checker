@@ -4,18 +4,22 @@ import { getNewChaptersCount, setExtensionIconMode } from './helpers';
 import { updateManga } from './state/slices/mangaPage';
 import { Manga } from './types/Manga';
 
-chrome.runtime.onInstalled.addListener(async () => {
+const handleInstalled = async () => {
     const store = new MangaStorage(STORAGE_KEY);
     const { manga } = await store.getStorage();
 
     await setExtensionIconMode(getNewChaptersCount(manga));
 
     chrome.alarms.get('periodic', a => {
-        if (!a) chrome.alarms.create('periodic', { periodInMinutes: 10.0 });
+        if (!a) void chrome.alarms.create('periodic', { periodInMinutes: 10.0 });
     });
+};
+
+chrome.runtime.onInstalled.addListener(() => {
+    void handleInstalled();
 });
 
-chrome.alarms.onAlarm.addListener(async () => {
+const handleAlarm = async () => {
     const store = new MangaStorage(STORAGE_KEY);
     const { manga } = await store.getStorage();
 
@@ -38,11 +42,21 @@ chrome.alarms.onAlarm.addListener(async () => {
 
     await store.setMangaList(result);
     await setExtensionIconMode(getNewChaptersCount(result));
+};
+
+chrome.alarms.onAlarm.addListener(() => {
+    void handleAlarm();
 });
 
-chrome.runtime.onMessage.addListener((data, sender, sendResponse) => {
-    if (data.type === 'notification') {
-        chrome.notifications.create('', data.options);
+type NotificationMessage = {
+    type: 'notification';
+    options: chrome.notifications.NotificationCreateOptions;
+};
+
+chrome.runtime.onMessage.addListener((data: NotificationMessage, sender, sendResponse) => {
+    if (data && data.type === 'notification') {
+        void chrome.notifications.create('', data.options);
     }
+
     sendResponse('OK');
 });

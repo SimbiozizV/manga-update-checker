@@ -7,7 +7,7 @@ import Root from './components/Root';
 import { STORAGE_KEY } from './constants';
 import { initStore } from './state';
 
-(async () => {
+void (async () => {
     const container = document.getElementById('app');
     if (container) {
         const root = createRoot(container);

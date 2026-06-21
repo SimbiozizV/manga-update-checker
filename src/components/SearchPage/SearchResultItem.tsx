@@ -18,7 +18,7 @@ const SearchResultItem: FC<SearchResultManga> = ({ thumbnail, name, nameEng, hre
         dispatch(addManga(href));
     };
     const onOpen = () => {
-        chrome.tabs.create({ active: false, url: href });
+        void chrome.tabs.create({ active: false, url: href });
     };
 
     return (

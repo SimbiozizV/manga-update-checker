@@ -14,8 +14,14 @@
       "ESNext",
       "DOM",
       "es2020"
+    ],
+    "types": [
+      "chrome"
     ]
   },
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
     "./build"
   ]

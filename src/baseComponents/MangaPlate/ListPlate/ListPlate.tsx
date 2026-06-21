@@ -35,8 +35,8 @@ export const ListPlate: FC<Props> = ({ manga }) => {
         setSource(null);
     };
 
-    const handleMirrorChange = async (url: string) => {
-        await dispatch(mirrorUrlChange({ id: manga.id, source: source!, url }));
+    const handleMirrorChange = (url: string) => {
+        dispatch(mirrorUrlChange({ id: manga.id, source: source!, url }));
         setSource(null);
     };
 

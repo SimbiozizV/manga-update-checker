@@ -1,19 +1,23 @@
 import { message } from 'antd';
 import { DEFAULT_ERROR } from '../constants/text';
 
-type MakeRequest = <T>(
+const makeRequest = async <T>(
     url: RequestInfo,
     options?: RequestInit & { successMessage?: string; errorMessage?: string; stringType?: boolean }
-) => Promise<T>;
-
-const makeRequest: MakeRequest = async (url, options) => {
+): Promise<T> => {
     const { errorMessage = DEFAULT_ERROR, successMessage } = options || {};
     try {
         const response = await fetch(url, options);
 
         if (response.ok) {
             if (successMessage) message.success(successMessage);
-            return options?.stringType ? await response.text() : await response.json();
+
+            if (options?.stringType) {
+                return (await response.text()) as T;
+            }
+
+            const data: unknown = await response.json();
+            return data as T;
         }
 
         throw new Error(errorMessage);

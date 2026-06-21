@@ -30,9 +30,9 @@ const AddForm: FC = () => {
     const dispatch = useAppDispatch();
     const [form] = Form.useForm();
 
-    const onFinish = () => {
-        const data: { url: string } = form.getFieldsValue();
-        dispatch(addManga(data.url));
+    const onFinish = (values: unknown) => {
+        const { url } = values as { url: string };
+        dispatch(addManga(url));
         form.resetFields();
     };
 

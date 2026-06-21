@@ -19,7 +19,7 @@ export const searchDesuRequest = async (name: string): Promise<SearchResultManga
             if (titleElement) {
                 result.push({
                     name: item.querySelector<HTMLDivElement>('.itemSubTitle')!.innerText,
-                    nameEng: titleElement.innerText as string,
+                    nameEng: titleElement.innerText,
                     thumbnail: `https://desu.me${item.querySelector<HTMLImageElement>('img')?.getAttribute('src')}`,
                     href: `https://desu.me/${item.getAttribute('href')}`,
                     source: SourceType.Desu,

@@ -1,7 +1,5 @@
-export default (str1 = '', str2 = '') => {
-    const track = Array(str2.length + 1)
-        .fill(null)
-        .map(() => Array(str1.length + 1).fill(null));
+export default (str1 = '', str2 = ''): number => {
+    const track: number[][] = Array.from({ length: str2.length + 1 }, () => Array<number>(str1.length + 1).fill(0));
 
     for (let i = 0; i <= str1.length; i += 1) {
         track[0][i] = i;

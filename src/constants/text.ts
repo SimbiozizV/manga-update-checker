@@ -2,7 +2,7 @@ import getPluralForm from '../helpers/getPluralForm';
 
 export const NOTIFICATION = {
     title: 'Подсказка по главе',
-    message: (lastChapter: any) => `В прошлый раз вы остановились на главе ${lastChapter}`,
+    message: (lastChapter: string) => `В прошлый раз вы остановились на главе ${lastChapter}`,
 };
 
 export const EMPTY_TEXT = {
