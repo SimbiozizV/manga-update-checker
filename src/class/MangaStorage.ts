@@ -13,7 +13,7 @@ class MangaStorage {
         const storageData = await chrome.storage.local.get(this.storageKey);
         if (!storageData[this.storageKey]) return initialStorage;
 
-        return JSON.parse(storageData[this.storageKey]);
+        return JSON.parse(storageData[this.storageKey]) as ChromeStorage;
     };
 
     public saveStorage = async (state: ChromeStorage) => {

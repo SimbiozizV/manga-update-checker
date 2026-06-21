@@ -9,7 +9,7 @@ const akParser: AsyncParser = async (url: string) => {
     try {
         const title = $('meta[property="og:title"]').attr('content')!;
         const image = $('meta[property="og:image"]').attr('content')!;
-        const lastChapter = $('.button-goto')!.text().split('/')[1];
+        const lastChapter = $('.button-goto').text().split('/')[1];
 
         return {
             title,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars -- ambient global declarations */
 declare const __DEV__: boolean;
 
 declare type ClassName = {

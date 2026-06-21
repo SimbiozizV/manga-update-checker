@@ -1,7 +1,6 @@
 import React, { FC, useMemo } from 'react';
 import { createSelector } from '@reduxjs/toolkit';
 import { ListPlate } from '../../baseComponents/MangaPlate/ListPlate';
-import Page from '../../baseComponents/Page';
 import { EMPTY_TEXT } from '../../constants/text';
 import { useAppSelector } from '../../hooks';
 import { selectFilter, selectManga } from '../../state/slices/mangaPage';
@@ -30,7 +29,7 @@ const ListPage: FC = () => {
     }, [mangaList]);
 
     return (
-        <Page>
+        <>
             <Filter />
             <FileOperations />
             {mangaList.length > 0 ? (
@@ -38,7 +37,7 @@ const ListPage: FC = () => {
             ) : (
                 <Empty description={hasFilter ? EMPTY_TEXT.filter : EMPTY_TEXT.list} margin="30px 0 0 0" />
             )}
-        </Page>
+        </>
     );
 };
 

@@ -6,6 +6,7 @@ import mangaLibIcon from '../icons/mangaLib.png';
 import mangaOvhIcon from '../icons/mangaOvh.png';
 import readMangaIcon from '../icons/readmanga.png';
 import remangaIcon from '../icons/remanga.png';
+import megaBuffIcon from '../icons/megaBuff.png';
 
 const iconMap: Record<SourceType, string> = {
     [SourceType.ReadManga]: readMangaIcon,
@@ -14,6 +15,7 @@ const iconMap: Record<SourceType, string> = {
     [SourceType.Desu]: desuIcon,
     [SourceType.Remanga]: remangaIcon,
     [SourceType.MangaOvh]: mangaOvhIcon,
+    [SourceType.MegaBuff]: megaBuffIcon,
     [SourceType.Inkstory]: inkstoryIcon,
 };
 

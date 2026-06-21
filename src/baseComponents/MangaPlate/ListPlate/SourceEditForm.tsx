@@ -36,7 +36,7 @@ export const SourceEditForm: FC<Props> = ({ source, mirror, onSave, onCancel, on
         <Flex vertical gap="small">
             <Flex gap="small" align="center">
                 <Typography.Text strong>Ссылка на источник:</Typography.Text>{' '}
-                <img src={getIconBySource(source as SourceType)} alt="icon" />[{mirror.lastChapter}]
+                <img src={getIconBySource(source)} alt="icon" />[{mirror.lastChapter}]
                 <Typography.Link href={mirror.url} target="_blank">
                     <ExportOutlined />
                 </Typography.Link>

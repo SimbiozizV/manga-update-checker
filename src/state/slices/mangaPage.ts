@@ -227,7 +227,7 @@ export const checkMangaUpdate = (): AsyncAction => async (dispatch, getState) =>
 
     dispatch(setUpdatingAction(true));
     try {
-        let hasProblem = false;
+        const hasProblem = false;
         let index = 0;
         let result: Manga[] = [];
         let totalNewChapterCount = 0;

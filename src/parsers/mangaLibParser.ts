@@ -57,7 +57,7 @@ export const mangaLibParser: AsyncParser = async (url: string) => {
     const urlObj = new URL(url);
     const name = urlObj.pathname.split('/').at(-1);
 
-    let params = new URLSearchParams();
+    const params = new URLSearchParams();
     requestKeys.forEach(key => {
         params.append('fields[]', key);
     });
@@ -66,7 +66,7 @@ export const mangaLibParser: AsyncParser = async (url: string) => {
 
     try {
         const response = await fetch(requestUrl);
-        const { data }: { data: MLResponse } = await response.json();
+        const { data } = (await response.json()) as { data: MLResponse };
 
         return {
             title: data.rus_name,

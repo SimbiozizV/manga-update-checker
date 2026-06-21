@@ -7,6 +7,7 @@ import mangaOvhParser from '../parsers/mangaOvhParser';
 import readMangaParser from '../parsers/readMangaParser';
 import remangaParser from '../parsers/remangaParser';
 import { AsyncParser, Parser } from '../types/Parser';
+import { megaBuffParser } from '../parsers/megaBuffParser';
 
 const parserMap: Record<SourceType, Parser | AsyncParser> = {
     [SourceType.ReadManga]: readMangaParser,
@@ -15,6 +16,7 @@ const parserMap: Record<SourceType, Parser | AsyncParser> = {
     [SourceType.Desu]: desuParser,
     [SourceType.Remanga]: remangaParser,
     [SourceType.MangaOvh]: mangaOvhParser,
+    [SourceType.MegaBuff]: megaBuffParser,
     [SourceType.Inkstory]: inkstoryParser,
 };
 

@@ -14,7 +14,7 @@ const ResultWrap = styled.div`
 const SearchResult: FC = () => {
     const { manga, isWaiting } = useAppSelector(selectSearchPage);
 
-    if (isWaiting) return <Spin tip="Загрузка" size="large" />;
+    if (isWaiting) return <Spin description="Загрузка" size="large" />;
 
     return (
         <ResultWrap>

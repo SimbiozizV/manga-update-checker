@@ -9,7 +9,7 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'pull_request' || github.repository_owner != github.event.pull_request.head.repo.owner.login }}
+    if: github.event_name == 'push'
 
     steps:
       - name: Checkout
@@ -28,16 +28,18 @@ jobs:
   build:
     needs: [lint]
     runs-on: ubuntu-latest
+    if: always() && (needs.lint.result == 'success' || needs.lint.result == 'skipped')
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18.x'
-        cache: 'yarn'
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'yarn'
 
-    - name: Install project
-      run: yarn install --frozen-lockfile
-    - name: Build
-      run: yarn build
+      - name: Install project
+        run: yarn install --frozen-lockfile
+      - name: Build
+        run: yarn build

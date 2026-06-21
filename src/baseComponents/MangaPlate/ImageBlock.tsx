@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { getMaxChapterMirror } from '../../helpers/getMaxChapterMirror';
 import { Manga } from '../../types/Manga';
-import { MainImage } from '../PlateImage/MainImage';
+import { Image } from '../Image';
 import { UpgradeNotification } from '../PlateImage/UpgradeNotification';
 
 const ImageWrap = styled.div`
@@ -23,7 +23,7 @@ type Props = {
 const ImageBlock: FC<Props> = ({ manga: { image, title, prevChapter, mirrors }, onClick }) => {
     return (
         <ImageWrap onClick={onClick}>
-            <MainImage src={image} alt={title} />
+            <Image src={image} width={145} height={145} alt={title} />
             <UpgradeNotification
                 prevChapter={prevChapter}
                 lastChapter={getMaxChapterMirror(mirrors).mirror.lastChapter}
