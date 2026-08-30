@@ -25,6 +25,10 @@ export default (url: string): SourceType | null => {
             return SourceType.MangaOvh;
         case 'inkstory.me':
             return SourceType.Inkstory;
+        case 'com-x.life':
+            return SourceType.ComX;
+        case 'mangabuff.ru':
+            return SourceType.MangaBuff;
         default:
             return null;
     }

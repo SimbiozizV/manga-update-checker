@@ -3,7 +3,7 @@ import { SourceType } from '../enum';
 import getIconBySource from './getIconBySource';
 
 export default ({ source, prevChapter }: { source: SourceType; prevChapter: string }) =>
-    chrome.runtime.sendMessage('', {
+    chrome.runtime.sendMessage({
         type: 'notification',
         options: {
             title: NOTIFICATION.title,

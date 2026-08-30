@@ -2,7 +2,14 @@ import getPluralForm from '../helpers/getPluralForm';
 
 export const NOTIFICATION = {
     title: 'Подсказка по главе',
-    message: (lastChapter: any) => `В прошлый раз вы остановились на главе ${lastChapter}`,
+    message: (lastChapter: string) => `В прошлый раз вы остановились на главе ${lastChapter}`,
+};
+
+export const BACKGROUND_NOTIFICATION = {
+    title: 'Manga Update Checker',
+    message: (newChapterCount: number) => {
+        return `${newChapterCount} ${getPluralForm(newChapterCount, 'обновление', 'обновления', 'обновлений')} манги`;
+    },
 };
 
 export const EMPTY_TEXT = {
@@ -42,4 +49,9 @@ export const IMPORT_MANGA_TEXT = {
     error: 'При импорте возникли проблемы',
     noNew: 'Нет новой манги для импорта',
     alreadyExist: 'Часть манги уже есть в списке',
+};
+
+export const CHECK_INTERVAL_TEXT = {
+    label: 'Интервал проверки',
+    saved: 'Интервал проверки сохранён',
 };

@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { md5 } from 'js-md5';
 import getDataByUrl from '../../api/getDataByUrl';
 import MangaStorage from '../../class/MangaStorage';
-import { BATCH_SIZE, STORAGE_KEY } from '../../constants';
+import { STORAGE_KEY } from '../../constants';
 import { ADD_MANGA_TEXT, IMPORT_MANGA_TEXT, UPDATE_MANGA_TEXT } from '../../constants/text';
 import { MangaStatus, SourceType } from '../../enum';
 import {
@@ -16,7 +16,7 @@ import {
 import { getKeys } from '../../helpers/getKeys';
 import { getMaxChapter } from '../../helpers/getMaxChapter';
 import { getMaxChapterMirror } from '../../helpers/getMaxChapterMirror';
-import { hasNewChapters } from '../../helpers/hasNewChapters';
+import { updateMangaList } from '../../services/mangaUpdateService';
 import { ExportItem } from '../../types/ExportItem';
 import { Manga, OldManga } from '../../types/Manga';
 import { Store } from '../../types/Store';
@@ -61,7 +61,7 @@ export const { setUpdatingAction, setFilterAction, setAddingAction, setMangaArra
 export const selectManga = (state: Store) => state.mangaPage.manga;
 export const selectFilter = (state: Store) => state.mangaPage.filter;
 export const selectIsImported = (state: Store) => state.mangaPage.isImported;
-export const selectIsAdding = (state: Store) => state.mangaPage.isImported;
+export const selectIsAdding = (state: Store) => state.mangaPage.isAdding;
 export const selectIsUpdating = (state: Store) => state.mangaPage.isUpdating;
 
 export const importFile =
@@ -171,7 +171,7 @@ export const mirrorUrlChange =
         }
 
         const index = mangaList.findIndex(manga => manga.id === id);
-        if (index < -1) {
+        if (index === -1) {
             return;
         }
 
@@ -190,80 +190,23 @@ export const mirrorUrlChange =
         message.success(ADD_MANGA_TEXT.success);
     };
 
-export const updateManga = async (manga: Manga): Promise<Manga> => {
-    const keys = getKeys(manga.mirrors);
-
-    const mirrors = await Promise.allSettled(
-        keys.map(source => getDataByUrl({ url: manga.mirrors[source]!.url, source }))
-    );
-
-    return {
-        ...manga,
-        mirrors: mirrors.reduce<Manga['mirrors']>((acc, mirror) => {
-            if (mirror.status === 'fulfilled') {
-                const { url, source, data } = mirror.value;
-
-                if (data) {
-                    acc[source] = {
-                        url,
-                        status: MangaStatus.Success,
-                        lastChapter: data.lastChapter.toString(),
-                    };
-                } else {
-                    acc[source] = {
-                        url,
-                        status: MangaStatus.Error,
-                        lastChapter: manga.mirrors[source]!.lastChapter,
-                    };
-                }
-            }
-            return acc;
-        }, {}),
-    };
-};
-
 export const checkMangaUpdate = (): AsyncAction => async (dispatch, getState) => {
     const { manga } = getState().mangaPage;
 
     dispatch(setUpdatingAction(true));
     try {
-        let hasProblem = false;
-        let index = 0;
-        let result: Manga[] = [];
-        let totalNewChapterCount = 0;
+        const { updated, newUpdates, hasErrors } = await updateMangaList(manga);
+        const totalNewChapterCount = newUpdates.length;
 
-        while (index < manga.length) {
-            const batch = manga.slice(index, index + BATCH_SIZE);
-            const response = await Promise.all(batch.map(updateManga));
-            const batchResult = response.reduce<{ manga: Manga[]; newChaptersCount: number }>(
-                (acc, updatedManga, key) => {
-                    if (hasNewChapters(batch[key].mirrors, updatedManga.mirrors)) {
-                        acc.newChaptersCount += 1;
-                    }
-                    acc.manga.push({
-                        ...batch[key],
-                        image: updatedManga.image,
-                        mirrors: updatedManga.mirrors,
-                    });
-                    return acc;
-                },
-                { manga: [], newChaptersCount: 0 }
-            );
+        dispatch(setMangaArrayAction(updated));
+        await mangaStorage.setMangaList(updated);
 
-            result = [...result, ...batchResult.manga];
-            totalNewChapterCount += batchResult.newChaptersCount;
-            index += BATCH_SIZE;
-        }
-
-        dispatch(setMangaArrayAction(result));
-        await mangaStorage.setMangaList(result);
-
-        if (hasProblem) {
+        if (hasErrors) {
             message.warning(UPDATE_MANGA_TEXT.error);
         } else {
             message.success(UPDATE_MANGA_TEXT.success(totalNewChapterCount));
         }
-        await setExtensionIconMode(totalNewChapterCount);
+        await setExtensionIconMode(getNewChaptersCount(updated));
     } catch (e) {
         console.error(e);
         message.warning(UPDATE_MANGA_TEXT.error);
@@ -306,6 +249,7 @@ export const addManga =
 
                 newList[mangaIndex] = {
                     ...existingManga,
+                    image: existingManga.image || response.data.image,
                     mirrors: {
                         ...existingManga.mirrors,
                         [source]: {
@@ -393,12 +337,12 @@ export const readManga =
         if (index === -1) return;
 
         const { newList, newChaptersCount } = manga.reduce<{ newList: Manga[]; newChaptersCount: number }>(
-            (acc, manga, key) => {
+            (acc, mangaItem, key) => {
                 if (key === index) {
-                    acc.newList.push({ ...manga, prevChapter: getMaxChapter(manga.mirrors).toString() });
+                    acc.newList.push({ ...mangaItem, prevChapter: getMaxChapter(mangaItem.mirrors) });
                 } else {
-                    acc.newList.push(manga);
-                    if (manga.prevChapter !== getMaxChapter(manga.mirrors).toString()) {
+                    acc.newList.push(mangaItem);
+                    if (mangaItem.prevChapter !== getMaxChapter(mangaItem.mirrors)) {
                         acc.newChaptersCount++;
                     }
                 }

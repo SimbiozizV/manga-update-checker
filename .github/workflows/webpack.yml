@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: '24.x'
           cache: 'yarn'
 
       - name: Install project
@@ -25,8 +25,24 @@ jobs:
       - name: Lint
         run: yarn lint:all
 
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '24.x'
+          cache: 'yarn'
+      - name: Install project
+        run: yarn install --frozen-lockfile
+      - name: Test
+        run: yarn test
+
   build:
-    needs: [lint]
+    needs: [lint, test]
     runs-on: ubuntu-latest
 
     steps:
@@ -34,7 +50,7 @@ jobs:
     - name: Setup Node
       uses: actions/setup-node@v3
       with:
-        node-version: '18.x'
+        node-version: '24.x'
         cache: 'yarn'
 
     - name: Install project

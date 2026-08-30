@@ -40,7 +40,7 @@ export const getRemangaChaptersRequest = async (id: number): Promise<string | nu
         });
         if (!response.content.length) return null;
         const freeChapters = response.content.filter(manga => !manga.is_paid);
-        return freeChapters.length ? response.content.filter(manga => !manga.is_paid)[0].chapter : null;
+        return freeChapters.length ? freeChapters[0].chapter : null;
     } catch (err) {
         console.error(err);
     }

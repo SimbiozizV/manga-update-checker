@@ -6,6 +6,8 @@ export enum SourceType {
     Remanga = 'remanga',
     MangaOvh = 'mangaOvh',
     Inkstory = 'inkstory',
+    ComX = 'comX',
+    MangaBuff = 'mangaBuff',
 }
 
 export enum MangaStatus {

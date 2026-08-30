@@ -1,3 +1,30 @@
+## Unreleased
+
+### Features
+
+- Фоновые сводные уведомления о новых главах
+- Синхронизация popup с обновлениями из service worker
+- Настраиваемый интервал автоматической проверки
+- Возобновление batch-обновлений после перезапуска service worker
+
+### Refactoring
+
+- Domain-логика обновления вынесена в `services/mangaUpdateService`
+- HTTP-слой отделён от UI (`httpClient` без antd)
+- Storage хранит объект с `schemaVersion` вместо JSON-строки
+- Сужены `host_permissions` до списка поддерживаемых доменов
+
+### Bug Fixes
+
+- Исправлен селектор `selectIsAdding`
+- Исправлена проверка индекса в `mirrorUrlChange`
+- Исправлено определение бесплатных глав Remanga
+- Исправлено числовое сравнение номеров глав
+
+### Tests
+
+- Добавлены unit-тесты (vitest) для helpers, services и парсеров
+
 ## v3.0.3
 - Удалил babel с проекта
 
