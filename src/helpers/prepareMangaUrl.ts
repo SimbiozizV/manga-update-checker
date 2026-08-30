@@ -15,12 +15,16 @@ export default (url: string): string => {
         return urlObj.origin + urlObj.pathname;
     }
 
-    if (type === SourceType.Desu || type === SourceType.MangaOvh) {
+    if (type === SourceType.Desu || type === SourceType.MangaOvh || type === SourceType.MangaBuff) {
         return `${urlObj.origin}/manga/${splitPath[1]}`;
     }
 
     if (type === SourceType.Remanga) {
         return `${urlObj.origin}/manga/${splitPath[1]}?p=content`;
+    }
+
+    if (type === SourceType.ComX) {
+        return `${urlObj.origin}${urlObj.pathname}`;
     }
 
     return url;

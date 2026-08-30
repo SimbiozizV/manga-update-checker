@@ -1,9 +1,9 @@
 import * as cheerio from 'cheerio';
-import makeRequest from '../api/makeRequest';
+import httpClient from '../api/httpClient';
 import { AsyncParser } from '../types/Parser';
 
 const inkstoryParser: AsyncParser = async (url: string) => {
-    const html = await makeRequest<string>(url, { stringType: true });
+    const html = await httpClient<string>(url, { stringType: true });
     const $ = cheerio.load(html);
 
     try {
