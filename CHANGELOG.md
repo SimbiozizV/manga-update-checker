@@ -25,6 +25,13 @@
 
 - Добавлены unit-тесты (vitest) для helpers, services и парсеров
 
+## [3.3.0](https://github.com/SimbiozizV/manga-update-checker/compare/v3.2.0...v3.3.0) (2026-09-04)
+
+
+### Features
+
+* фоновые уведомления, парсеры Com-X/MangaBuff и unit-тесты ([76a0fa9](https://github.com/SimbiozizV/manga-update-checker/commit/76a0fa934139284e89280f89b17bf880dc7d864c))
+
 ## v3.0.3
 - Удалил babel с проекта
 
